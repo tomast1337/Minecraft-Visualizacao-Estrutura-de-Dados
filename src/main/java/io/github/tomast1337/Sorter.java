@@ -96,7 +96,8 @@ public class Sorter implements CommandExecutor {
         Player player = (Player) sender;
         Location location = player.getLocation();
         for (Sheep sheep : sheeplist) {
-            sheep.teleport(location.add(2, 0, 0));
+            sheep.teleport(location);
+            location.add(2, 0, 0);
         }
         player.sendMessage("Ovelhas movidas para sua localisação");
     }
@@ -118,8 +119,9 @@ public class Sorter implements CommandExecutor {
     }
 
     void embaralhar(CommandSender sender) {
-        Player player = (Player) sender;
-        for (int i = 0,tempo = 0; i < 3; i++,tempo += 15) {
+        final Player player = (Player) sender;
+        int tempo = 0;
+        for (int i = 0; i < 3; i++,tempo += 15) {
             final Location l = sheeplist[0].getLocation();
             new BukkitRunnable() {
                 @Override
@@ -134,8 +136,12 @@ public class Sorter implements CommandExecutor {
                 }
             }.runTaskLater(app, tempo);
         }
-
-        player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
+            }
+        }.runTaskLater(app, tempo+5);
     }
 
     void torcar(int idexX, int idexY) {
@@ -155,7 +161,6 @@ public class Sorter implements CommandExecutor {
                 // Variaves para a classe anonima
                 final int finalJ = j;
                 final Sheep[] aux = new Sheep[1];
-
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -179,23 +184,49 @@ public class Sorter implements CommandExecutor {
             public void run() {
                 player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
             }
-        }.runTaskLater(app, tempo[0] + 10);
+        }.runTaskLater(app, tempo[0]);
+    }
+
+    void replace(Location original){
+        Location location = original.clone();
+        for (Sheep sheep : sheeplist) {
+            sheep.teleport(location);
+            location.add(2,0,0);
+        }
     }
 
     void insertion(CommandSender sender) {
         //TODO Implemetar animações
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
         player.sendMessage("Executando insertion sort");
-        for (int i = 1; i < 16; ++i) {
-            int key = Integer.parseInt(sheeplist[i].getName());
-            int j = i - 1;
+        final Sheep[] inserir = new Sheep[1];
 
-            while (j >= 0 && Integer.parseInt(sheeplist[j].getName()) > key) {
-                sheeplist[j + 1] = sheeplist[j];
-                j = j - 1;
-            }
-            sheeplist[j + 1] = sheeplist[i];
+        final Location location = sheeplist[0].getLocation();
+
+        int tempo = 20;
+        final int[] j = {1};
+        for (int i = 1;i < sheeplist.length; i++) {
+            final int finalI = i;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    inserir[0] = sheeplist[finalI];
+                    j[0] = finalI - 1;
+                    while (j[0] >= 0 && Integer.parseInt(sheeplist[j[0]].getName()) > Integer.parseInt(inserir[0].getName())) {
+                        sheeplist[j[0] + 1] = sheeplist[j[0]];
+                        j[0] = j[0] - 1;
+                    }
+                    sheeplist[j[0] + 1] = inserir[0];
+                    replace(location);
+                }}.runTaskLater(app, tempo);
+                tempo += 10;
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+            }
+        }.runTaskLater(app, tempo);
     }
 
     void selection(CommandSender sender) {
@@ -212,5 +243,6 @@ public class Sorter implements CommandExecutor {
             }
             sheeplist[j + 1] = sheeplist[i];
         }
+        player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
     }
 }

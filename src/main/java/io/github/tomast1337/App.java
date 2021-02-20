@@ -16,6 +16,8 @@ public class App extends JavaPlugin{
     @Override
     public void onDisable() {
         getLogger().info("See you again, SpigotMC!");
+        for(Sheep sheep :sheeplist)
+            sheep.damage(99);
     }
 
 
