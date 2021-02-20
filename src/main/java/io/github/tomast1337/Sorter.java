@@ -1,23 +1,24 @@
 package io.github.tomast1337;
 
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
 public class Sorter implements CommandExecutor {
     private Sheep[] sheeplist;
     private Boolean statusVida = false;
+    private App app;
 
-    public Sorter(Sheep[] sheeplist) {
+    public Sorter(Sheep[] sheeplist, App app) {
+        this.app = app;
         this.sheeplist = sheeplist;
     }
 
@@ -59,19 +60,27 @@ public class Sorter implements CommandExecutor {
         return true;
     }
 
+    String print_order(Sheep[] sheeps) {
+        StringBuilder result = new StringBuilder("[");
+        for (Sheep sheep : sheeps) {
+            result.append(Integer.parseInt(sheep.getName())).append(" ");
+        }
+        result.append("]");
+        return result.toString();
+    }
+
     void criar(CommandSender sender) {
         Player player = (Player) sender;
         World world = player.getWorld();
         if (!statusVida) {
-            // Poderia ser um for mais esse projeto ta mais pra um hack rapido
-            for (int i = 0, off = 0; i < 16; i++, off += 2) {
+            for (int i = 0, off = 0; i < sheeplist.length; i++, off += 2) {
                 sheeplist[i] = (Sheep) world.spawnEntity(player.getLocation().add(off, 0, 0), EntityType.SHEEP);
-                sheeplist[i].setCustomName(String.valueOf(i));
+                sheeplist[i].setCustomName(String.valueOf(i+1));
                 sheeplist[i].setColor(DyeColor.getByWoolData((byte) i));
                 sheeplist[i].setAI(false);
             }
             statusVida = true;
-            player.sendMessage("Criando Ovelhas...");
+            player.sendMessage("Criando Ovelhas...\n" + print_order(sheeplist));
         } else {
             player.sendMessage("Ovelhas Ja criadas use mover ou destruir");
         }
@@ -81,14 +90,13 @@ public class Sorter implements CommandExecutor {
     void mover(CommandSender sender) {
         Player player = (Player) sender;
         Location location = player.getLocation();
-        for (int i = 0; i < 16; i++) {
-            sheeplist[i].teleport(location.add(2, 0, 0));
+        for (Sheep sheep : sheeplist) {
+            sheep.teleport(location.add(2, 0, 0));
         }
     }
 
     void destruir(CommandSender sender) {
         Player player = (Player) sender;
-        World world = player.getWorld();
         for (Sheep sheep : sheeplist) {
             sheep.damage(99);
         }
@@ -107,45 +115,50 @@ public class Sorter implements CommandExecutor {
             sheeplist[i].teleport(l);
             l.add(2, 0, 0);
         }
-        player.sendMessage("Embaralhando Ovelhas...");
+        player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
     }
 
     void torcar(int idexX, int idexY) {
         Location Localx = sheeplist[idexX].getLocation();
         Location Localy = sheeplist[idexY].getLocation();
 
-        sheeplist[idexX].setGlowing(false);
-        sheeplist[idexY].setGlowing(false);
-
         sheeplist[idexX].teleport(Localy);
         sheeplist[idexY].teleport(Localx);
     }
 
     void bubble(CommandSender sender) {
-        //TODO Implemetar animações
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
         player.sendMessage("Executando bubble sort");
-        Location location = sheeplist[0].getLocation();
-        Sheep aux;
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 15; j++) {
-                sheeplist[j].setGlowing(true);
-                sheeplist[j + 1].setGlowing(true);
+        int tempo = 20;
+        for (int i = 0; i < sheeplist.length; i++) {
+            for (int j = 0; j < sheeplist.length-1; j++) {
+                // Variaves para a classe anonima
+                final int finalJ = j;
+                final Sheep[] aux = new Sheep[1];
 
-                new Timer(true).schedule(new TimerTask() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
+                        if (Integer.parseInt(sheeplist[finalJ].getName()) > Integer.parseInt(sheeplist[finalJ + 1].getName())) {
+                            //Torca visual
+                            torcar(finalJ, finalJ + 1);
+                            //Torca logica
+                            aux[0] = sheeplist[finalJ];
+                            sheeplist[finalJ] = sheeplist[finalJ + 1];
+                            sheeplist[finalJ + 1] = aux[0];
+                        }
                     }
-                }, 5000);
+                }.runTaskLater(app, tempo);
+                tempo += 10;
 
-                if (Integer.parseInt(sheeplist[j].getName()) > Integer.parseInt(sheeplist[j + 1].getName())) {
-
-                    aux = sheeplist[j];
-                    sheeplist[j] = sheeplist[j + 1];
-                    sheeplist[j + 1] = aux;
-                }
             }
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+            }
+        }.runTaskLater(app, tempo + 10);
     }
 
     void insertion(CommandSender sender) {
