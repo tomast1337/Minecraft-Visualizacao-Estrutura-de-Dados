@@ -13,6 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class Sorter implements CommandExecutor {
+    private final DyeColor[] ordemCor = {
+                     DyeColor.WHITE,DyeColor.LIGHT_GRAY,DyeColor.GRAY,DyeColor.BLACK,
+                     DyeColor.BROWN,DyeColor.RED,DyeColor.ORANGE,DyeColor.YELLOW,
+                     DyeColor.LIME,DyeColor.GREEN,DyeColor.CYAN,DyeColor.LIGHT_BLUE,
+                     DyeColor.BLUE,DyeColor.PURPLE,DyeColor.MAGENTA,DyeColor.PINK};
     private Sheep[] sheeplist;
     private Boolean statusVida = false;
     private App app;
@@ -75,8 +80,8 @@ public class Sorter implements CommandExecutor {
         if (!statusVida) {
             for (int i = 0, off = 0; i < sheeplist.length; i++, off += 2) {
                 sheeplist[i] = (Sheep) world.spawnEntity(player.getLocation().add(off, 0, 0), EntityType.SHEEP);
-                sheeplist[i].setCustomName(String.valueOf(i+1));
-                sheeplist[i].setColor(DyeColor.getByWoolData((byte) i));
+                sheeplist[i].setCustomName(String.valueOf(i + 1));
+                sheeplist[i].setColor(ordemCor[i]);
                 sheeplist[i].setAI(false);
             }
             statusVida = true;
@@ -131,7 +136,7 @@ public class Sorter implements CommandExecutor {
         player.sendMessage("Executando bubble sort");
         int tempo = 20;
         for (int i = 0; i < sheeplist.length; i++) {
-            for (int j = 0; j < sheeplist.length-1; j++) {
+            for (int j = 0; j < sheeplist.length - 1; j++) {
                 // Variaves para a classe anonima
                 final int finalJ = j;
                 final Sheep[] aux = new Sheep[1];
