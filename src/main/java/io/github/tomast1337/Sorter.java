@@ -85,9 +85,9 @@ public class Sorter implements CommandExecutor {
                 sheeplist[i].setAI(false);
             }
             statusVida = true;
-            player.sendMessage("Criando Ovelhas...\n" + print_order(sheeplist));
+            player.sendMessage("Ovelhas Criadas\n" + print_order(sheeplist));
         } else {
-            player.sendMessage("Ovelhas Ja criadas use mover ou destruir");
+            player.sendMessage("Ovelhas ja criadas use mover re posicioná las ou destruir para remover elas");
         }
 
     }
@@ -98,28 +98,43 @@ public class Sorter implements CommandExecutor {
         for (Sheep sheep : sheeplist) {
             sheep.teleport(location.add(2, 0, 0));
         }
+        player.sendMessage("Ovelhas movidas para sua localisação");
     }
 
     void destruir(CommandSender sender) {
         Player player = (Player) sender;
-        for (Sheep sheep : sheeplist) {
-            sheep.damage(99);
+        int tempo = 0;
+        for (final Sheep sheep : sheeplist) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    sheep.damage(99);
+                }
+            }.runTaskLater(app, tempo);
+            tempo += 10;
         }
         statusVida = false;
+        player.sendMessage("Ovelhas destruidas\nUse criar para fazer uma nova array");
     }
 
     void embaralhar(CommandSender sender) {
         Player player = (Player) sender;
-        Location l = sheeplist[0].getLocation();
-
-        List<Sheep> list = Arrays.asList(sheeplist);
-        Collections.shuffle(list);
-        list.toArray(sheeplist);
-
-        for (int i = 0; i < 16; i++) {
-            sheeplist[i].teleport(l);
-            l.add(2, 0, 0);
+        for (int i = 0,tempo = 0; i < 3; i++,tempo += 15) {
+            final Location l = sheeplist[0].getLocation();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    List<Sheep> list = Arrays.asList(sheeplist);
+                    Collections.shuffle(list);
+                    list.toArray(sheeplist);
+                    for (int i = 0; i < 16; i++) {
+                        sheeplist[i].teleport(l);
+                        l.add(2, 0, 0);
+                    }
+                }
+            }.runTaskLater(app, tempo);
         }
+
         player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
     }
 
@@ -134,7 +149,7 @@ public class Sorter implements CommandExecutor {
     void bubble(CommandSender sender) {
         final Player player = (Player) sender;
         player.sendMessage("Executando bubble sort");
-        int tempo = 20;
+        final int[] tempo = {20};
         for (int i = 0; i < sheeplist.length; i++) {
             for (int j = 0; j < sheeplist.length - 1; j++) {
                 // Variaves para a classe anonima
@@ -151,11 +166,12 @@ public class Sorter implements CommandExecutor {
                             aux[0] = sheeplist[finalJ];
                             sheeplist[finalJ] = sheeplist[finalJ + 1];
                             sheeplist[finalJ + 1] = aux[0];
+                        }else{
+                            tempo[0] -= 10;
                         }
                     }
-                }.runTaskLater(app, tempo);
-                tempo += 10;
-
+                }.runTaskLater(app, tempo[0]);
+                tempo[0] += 10;
             }
         }
         new BukkitRunnable() {
@@ -163,7 +179,7 @@ public class Sorter implements CommandExecutor {
             public void run() {
                 player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
             }
-        }.runTaskLater(app, tempo + 10);
+        }.runTaskLater(app, tempo[0] + 10);
     }
 
     void insertion(CommandSender sender) {
