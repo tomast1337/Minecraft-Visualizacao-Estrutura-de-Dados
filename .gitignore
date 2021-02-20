@@ -1,0 +1,5 @@
+target
+
+Server/*
+!Server/server.properties
+!Server/spigot-1.16.5.jar

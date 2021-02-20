@@ -1,0 +1,8 @@
+main: io.github.tomast1337.App
+name: BlankPlugin
+version: 0.1
+
+commands:
+  sorter:
+    description: Criar organiza e destroi ovelhas
+    usage: /<command>
