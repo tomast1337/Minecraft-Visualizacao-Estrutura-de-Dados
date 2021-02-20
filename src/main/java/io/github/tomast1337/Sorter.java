@@ -1,26 +1,29 @@
 package io.github.tomast1337;
 
-import org.bukkit.*;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Sorter implements CommandExecutor {
     private final DyeColor[] ordemCor = {
-                     DyeColor.WHITE,DyeColor.LIGHT_GRAY,DyeColor.GRAY,DyeColor.BLACK,
-                     DyeColor.BROWN,DyeColor.RED,DyeColor.ORANGE,DyeColor.YELLOW,
-                     DyeColor.LIME,DyeColor.GREEN,DyeColor.CYAN,DyeColor.LIGHT_BLUE,
-                     DyeColor.BLUE,DyeColor.PURPLE,DyeColor.MAGENTA,DyeColor.PINK};
-    private Sheep[] sheeplist;
+            DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK,
+            DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW,
+            DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN, DyeColor.LIGHT_BLUE,
+            DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK};
+    private final Sheep[] sheeplist;
+    private final App app;
     private Boolean statusVida = false;
-    private App app;
 
     public Sorter(Sheep[] sheeplist, App app) {
         this.app = app;
@@ -121,7 +124,7 @@ public class Sorter implements CommandExecutor {
     void embaralhar(CommandSender sender) {
         final Player player = (Player) sender;
         int tempo = 0;
-        for (int i = 0; i < 3; i++,tempo += 15) {
+        for (int i = 0; i < 3; i++, tempo += 15) {
             final Location l = sheeplist[0].getLocation();
             new BukkitRunnable() {
                 @Override
@@ -141,7 +144,7 @@ public class Sorter implements CommandExecutor {
             public void run() {
                 player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
             }
-        }.runTaskLater(app, tempo+5);
+        }.runTaskLater(app, tempo + 5);
     }
 
     void torcar(int idexX, int idexY) {
@@ -171,7 +174,7 @@ public class Sorter implements CommandExecutor {
                             aux[0] = sheeplist[finalJ];
                             sheeplist[finalJ] = sheeplist[finalJ + 1];
                             sheeplist[finalJ + 1] = aux[0];
-                        }else{
+                        } else {
                             tempo[0] -= 10;
                         }
                     }
@@ -187,11 +190,11 @@ public class Sorter implements CommandExecutor {
         }.runTaskLater(app, tempo[0]);
     }
 
-    void replace(Location original){
+    void replace(Location original) {
         Location location = original.clone();
         for (Sheep sheep : sheeplist) {
             sheep.teleport(location);
-            location.add(2,0,0);
+            location.add(2, 0, 0);
         }
     }
 
@@ -205,7 +208,7 @@ public class Sorter implements CommandExecutor {
 
         int tempo = 20;
         final int[] j = {1};
-        for (int i = 1;i < sheeplist.length; i++) {
+        for (int i = 1; i < sheeplist.length; i++) {
             final int finalI = i;
             new BukkitRunnable() {
                 @Override
@@ -218,8 +221,9 @@ public class Sorter implements CommandExecutor {
                     }
                     sheeplist[j[0] + 1] = inserir[0];
                     replace(location);
-                }}.runTaskLater(app, tempo);
-                tempo += 10;
+                }
+            }.runTaskLater(app, tempo);
+            tempo += 10;
         }
         new BukkitRunnable() {
             @Override
