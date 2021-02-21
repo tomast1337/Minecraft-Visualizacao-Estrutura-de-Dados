@@ -234,19 +234,34 @@ public class Sorter implements CommandExecutor {
     }
 
     void selection(CommandSender sender) {
-        //TODO Implementar selection sort
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
         player.sendMessage("Executando selection sort");
-        for (int i = 1; i < 16; ++i) {
-            int key = Integer.parseInt(sheeplist[i].getName());
-            int j = i - 1;
-
-            while (j >= 0 && Integer.parseInt(sheeplist[j].getName()) > key) {
-                sheeplist[j + 1] = sheeplist[j];
-                j = j - 1;
-            }
-            sheeplist[j + 1] = sheeplist[i];
+        final Location location = sheeplist[0].getLocation();
+        int tempo = 20;
+        for (int i = 0; i < sheeplist.length; ++i) {
+            final int finalI = i;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    int menorIndex = finalI;
+                    for (int j = finalI + 1; j < sheeplist.length; ++j) {
+                        if (Integer.parseInt(sheeplist[j].getName()) < Integer.parseInt(sheeplist[menorIndex].getName())) {
+                            menorIndex = j;
+                        }
+                    }
+                    Sheep aux = sheeplist[finalI];
+                    sheeplist[finalI] = sheeplist[menorIndex];
+                    sheeplist[menorIndex] = aux;
+                    replace(location);
+                }
+            }.runTaskLater(app, tempo);
+            tempo += 10;
         }
-        player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+            }
+        }.runTaskLater(app, tempo);
     }
 }
