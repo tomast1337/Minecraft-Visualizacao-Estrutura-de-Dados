@@ -35,6 +35,8 @@ public class Sorter implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length > 0) {
+                int speed = 10;
+                if (args.length == 2) speed = Integer.parseInt(args[1]);
                 switch (args[0].toLowerCase()) {
                     case "criar":
                         criar(sender);
@@ -49,20 +51,20 @@ public class Sorter implements CommandExecutor {
                         mover(sender);
                         break;
                     case "bubble":
-                        bubble(sender);
+                        bubble(sender, speed);
                         break;
                     case "insertion":
-                        insertion(sender);
+                        insertion(sender, speed);
                         break;
                     case "selection":
-                        selection(sender);
+                        selection(sender, speed);
                         break;
                     default:
-                        player.sendMessage("Erro: ultilize os argumentos criar, ordenar, embaralhar e insertion, bubble para ordenar");
+                        player.sendMessage("Erro: ultilize /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
                         break;
                 }
             } else {
-                player.sendMessage("Erro: ultilize os argumentos criar, ordenar, embaralhar");
+                player.sendMessage("Erro: ultilize /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
             }
         }
         return true;
@@ -96,7 +98,11 @@ public class Sorter implements CommandExecutor {
     }
 
     void mover(CommandSender sender) {
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         Location location = player.getLocation();
         for (Sheep sheep : sheeplist) {
             sheep.teleport(location);
@@ -106,7 +112,11 @@ public class Sorter implements CommandExecutor {
     }
 
     void destruir(CommandSender sender) {
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         int tempo = 0;
         for (final Sheep sheep : sheeplist) {
             new BukkitRunnable() {
@@ -123,6 +133,10 @@ public class Sorter implements CommandExecutor {
 
     void embaralhar(CommandSender sender) {
         final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         int tempo = 0;
         for (int i = 0; i < 3; i++, tempo += 15) {
             final Location l = sheeplist[0].getLocation();
@@ -147,39 +161,41 @@ public class Sorter implements CommandExecutor {
         }.runTaskLater(app, tempo + 5);
     }
 
-    void torcar(int idexX, int idexY) {
-        Location Localx = sheeplist[idexX].getLocation();
-        Location Localy = sheeplist[idexY].getLocation();
-
-        sheeplist[idexX].teleport(Localy);
-        sheeplist[idexY].teleport(Localx);
+    void replace(Location original) {
+        Location location = original.clone();
+        for (Sheep sheep : sheeplist) {
+            sheep.teleport(location);
+            location.add(2, 0, 0);
+        }
     }
 
-    void bubble(CommandSender sender) {
+    void bubble(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         player.sendMessage("Executando bubble sort");
+        final Location location = sheeplist[0].getLocation();
         final int[] tempo = {20};
         for (int i = 0; i < sheeplist.length; i++) {
             for (int j = 0; j < sheeplist.length - 1; j++) {
-                // Variaves para a classe anonima
                 final int finalJ = j;
                 final Sheep[] aux = new Sheep[1];
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (Integer.parseInt(sheeplist[finalJ].getName()) > Integer.parseInt(sheeplist[finalJ + 1].getName())) {
-                            //Torca visual
-                            torcar(finalJ, finalJ + 1);
-                            //Torca logica
                             aux[0] = sheeplist[finalJ];
                             sheeplist[finalJ] = sheeplist[finalJ + 1];
                             sheeplist[finalJ + 1] = aux[0];
+                            replace(location);
                         } else {
-                            tempo[0] -= 10;
+                            tempo[0] -= speed;
                         }
                     }
                 }.runTaskLater(app, tempo[0]);
-                tempo[0] += 10;
+                tempo[0] += speed;
             }
         }
         new BukkitRunnable() {
@@ -190,17 +206,12 @@ public class Sorter implements CommandExecutor {
         }.runTaskLater(app, tempo[0]);
     }
 
-    void replace(Location original) {
-        Location location = original.clone();
-        for (Sheep sheep : sheeplist) {
-            sheep.teleport(location);
-            location.add(2, 0, 0);
-        }
-    }
-
-    void insertion(CommandSender sender) {
-        //TODO Implemetar animações
+    void insertion(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         player.sendMessage("Executando insertion sort");
         final Sheep[] inserir = new Sheep[1];
 
@@ -223,7 +234,7 @@ public class Sorter implements CommandExecutor {
                     replace(location);
                 }
             }.runTaskLater(app, tempo);
-            tempo += 10;
+            tempo += speed;
         }
         new BukkitRunnable() {
             @Override
@@ -233,8 +244,12 @@ public class Sorter implements CommandExecutor {
         }.runTaskLater(app, tempo);
     }
 
-    void selection(CommandSender sender) {
+    void selection(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage("Use /sorter criar primeiro");
+            return;
+        }
         player.sendMessage("Executando selection sort");
         final Location location = sheeplist[0].getLocation();
         int tempo = 20;
@@ -255,7 +270,7 @@ public class Sorter implements CommandExecutor {
                     replace(location);
                 }
             }.runTaskLater(app, tempo);
-            tempo += 10;
+            tempo += speed;
         }
         new BukkitRunnable() {
             @Override
