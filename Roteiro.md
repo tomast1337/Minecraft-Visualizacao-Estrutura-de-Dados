@@ -1,8 +1,10 @@
 # Trabalho insertion sort
 Neste trabalho irei utilizar o jogo Minecraft e Ovelhas, representando os elementos e esse cercado representando a memória.
+
 {mostrar ovelhas e cercado}
 
 As ovelhas possuem cada uma um nome de, 1 a 16, uma cor única também representando seu valor, no caso as cores estão em ordem de matiz.
+
 {mostrar ovelhas com cores e nomes}
 
 O código dessa visualização está disponível no meu github.
@@ -15,11 +17,13 @@ O insertion sort é simples de ser implementado pois é muito próximo de um sen
 
 ### Visualização
 Vamos agora a visualização do insertion sort.
+
 {Mostrar vídeo o insertion sort}
 
 
 ### Olhando mais de perto
 Vamos olhar mais devagar para entender o'que acontece 
+
 {Mostrar vídeo o insertion sort mais lento e narrando o que acontece}
 
 
