@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class App extends JavaPlugin {
     private static Sheep[] sheeplist;
-    public static final String[] sortCommandOptions = {"criar", "embaralhar", "destruir", "mover", "bubble", "insertion", "selection"};
+    public static final String[] sortCommandOptions = {"criar", "embaralhar", "inverter", "destruir", "mover", "bubble", "insertion", "selection"};
 
     @Override
     public void onEnable() {

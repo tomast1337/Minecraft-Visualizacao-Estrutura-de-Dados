@@ -44,6 +44,9 @@ public class Sorter implements CommandExecutor {
                     case "embaralhar":
                         embaralhar(sender);
                         break;
+                    case "inverter":
+                        inverter(sender);
+                        break;
                     case "destruir":
                         destruir(sender);
                         break;
@@ -70,6 +73,18 @@ public class Sorter implements CommandExecutor {
         return true;
     }
 
+    private void inverter(CommandSender sender) {
+        final Player player = (Player) sender;
+
+        Location location = sheeplist[0].getLocation();
+        List<Sheep> list = Arrays.asList(sheeplist);
+        Collections.reverse(list);
+        list.toArray(sheeplist);
+        replace(location);
+
+        player.sendMessage("Ovelhas estão na posição inversa");
+    }
+
     String print_order(Sheep[] sheeps) {
         StringBuilder result = new StringBuilder("[");
         for (Sheep sheep : sheeps) {
@@ -80,7 +95,7 @@ public class Sorter implements CommandExecutor {
     }
 
     void criar(CommandSender sender) {
-        Player player = (Player) sender;
+        final Player player = (Player) sender;
         World world = player.getWorld();
         if (!statusVida) {
             for (int i = 0, off = 0; i < sheeplist.length; i++, off += 2) {
@@ -108,7 +123,7 @@ public class Sorter implements CommandExecutor {
             sheep.teleport(location);
             location.add(2, 0, 0);
         }
-        player.sendMessage("Ovelhas movidas para sua localisação");
+        player.sendMessage("Ovelhas movidas para sua localização");
     }
 
     void destruir(CommandSender sender) {
