@@ -63,11 +63,11 @@ public class Sorter implements CommandExecutor {
                         selection(sender, speed);
                         break;
                     default:
-                        player.sendMessage("Erro: ultilize /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
+                        player.sendMessage("Erro: ultilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
                         break;
                 }
             } else {
-                player.sendMessage("Erro: ultilize /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
+                player.sendMessage("Erro: utilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
             }
         }
         return true;
