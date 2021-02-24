@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.tomast1337</groupId>
-    <artifactId>blankPlugin</artifactId>
+    <artifactId>ShortingInMinecraft</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>blankPlugin</name>
+    <name>ShortingInMinecraft</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 

@@ -1,5 +1,5 @@
 main: io.github.tomast1337.App
-name: BlankPlugin
+name: ShortingInMinecraft
 version: 0.1
 
 commands:
