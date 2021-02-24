@@ -2,6 +2,7 @@ package io.github.tomast1337;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -42,47 +43,65 @@ public class Sorter implements CommandExecutor {
                         criar(sender);
                         break;
                     case "embaralhar":
-                        embaralhar(sender);
+                        if (chekarStatusVida(sender)) {
+                            embaralhar(sender);
+                        }
                         break;
                     case "inverter":
-                        inverter(sender);
+                        if (chekarStatusVida(sender)) {
+                            inverter(sender);
+                        }
                         break;
                     case "destruir":
-                        destruir(sender);
+                        if (chekarStatusVida(sender)) {
+                            destruir(sender);
+                        }
                         break;
                     case "mover":
-                        mover(sender);
+                        if (chekarStatusVida(sender)) {
+                            mover(sender);
+                        }
                         break;
                     case "bubble":
-                        bubble(sender, speed);
+                        if (chekarStatusVida(sender)) {
+                            bubble(sender, speed);
+                        }
                         break;
                     case "insertion":
-                        insertion(sender, speed);
+                        if (chekarStatusVida(sender)) {
+                            insertion(sender, speed);
+                        }
                         break;
                     case "selection":
-                        selection(sender, speed);
+                        if (chekarStatusVida(sender)) {
+                            selection(sender, speed);
+                        }
                         break;
                     default:
-                        player.sendMessage("Erro: ultilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
+                        player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
                         break;
                 }
             } else {
-                player.sendMessage("Erro: utilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
+                player.sendMessage(ChatColor.RED + "Erro: utilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
             }
         }
         return true;
     }
 
-    private void inverter(CommandSender sender) {
+    private boolean chekarStatusVida(CommandSender sender) {
         final Player player = (Player) sender;
+        if (!statusVida) {
+            player.sendMessage(ChatColor.YELLOW + "Use /sorter criar primeiro");
+        }
+        return statusVida;
+    }
 
-        Location location = sheeplist[0].getLocation();
-        List<Sheep> list = Arrays.asList(sheeplist);
-        Collections.reverse(list);
-        list.toArray(sheeplist);
-        replace(location);
-
-        player.sendMessage("Ovelhas estão na posição inversa");
+    void replace(Location original) {
+        Location location = original.clone();
+        for (Sheep sheep : sheeplist) {
+            sheep.teleport(location);
+            location.add(2, 0, 0);
+        }
     }
 
     String print_order(Sheep[] sheeps) {
@@ -105,33 +124,25 @@ public class Sorter implements CommandExecutor {
                 sheeplist[i].setAI(false);
             }
             statusVida = true;
-            player.sendMessage("Ovelhas Criadas\n" + print_order(sheeplist));
+            player.sendMessage(ChatColor.BLUE + "Ovelhas Criadas\n" + print_order(sheeplist));
         } else {
-            player.sendMessage("Ovelhas ja criadas use mover re posicioná las ou destruir para remover elas");
+            player.sendMessage(ChatColor.YELLOW + "Ovelhas ja criadas!");
         }
 
     }
 
     void mover(CommandSender sender) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
         Location location = player.getLocation();
         for (Sheep sheep : sheeplist) {
             sheep.teleport(location);
             location.add(2, 0, 0);
         }
-        player.sendMessage("Ovelhas movidas para sua localização");
+        player.sendMessage(ChatColor.BLUE + "Ovelhas movidas para sua localização");
     }
 
     void destruir(CommandSender sender) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
         int tempo = 0;
         for (final Sheep sheep : sheeplist) {
             new BukkitRunnable() {
@@ -143,15 +154,23 @@ public class Sorter implements CommandExecutor {
             tempo += 10;
         }
         statusVida = false;
-        player.sendMessage("Ovelhas destruidas\nUse criar para fazer uma nova array");
+        player.sendMessage(ChatColor.BLUE + "Ovelhas destruidas\nUse criar para fazer uma nova array");
+    }
+
+    private void inverter(CommandSender sender) {
+        final Player player = (Player) sender;
+
+        Location location = sheeplist[0].getLocation();
+        List<Sheep> list = Arrays.asList(sheeplist);
+        Collections.reverse(list);
+        list.toArray(sheeplist);
+        replace(location);
+
+        player.sendMessage(ChatColor.BLUE + "Ovelhas estão na posição inversa");
     }
 
     void embaralhar(CommandSender sender) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
         int tempo = 0;
         for (int i = 0; i < 3; i++, tempo += 15) {
             final Location l = sheeplist[0].getLocation();
@@ -171,26 +190,14 @@ public class Sorter implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.sendMessage("Ovelhas embaralhadas\n" + print_order(sheeplist));
+                player.sendMessage(ChatColor.BLUE + "Ovelhas embaralhadas\n" + print_order(sheeplist));
             }
         }.runTaskLater(app, tempo + 5);
     }
 
-    void replace(Location original) {
-        Location location = original.clone();
-        for (Sheep sheep : sheeplist) {
-            sheep.teleport(location);
-            location.add(2, 0, 0);
-        }
-    }
-
     void bubble(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
-        player.sendMessage("Executando bubble sort");
+        player.sendMessage(ChatColor.RED + "Executando bubble sort");
         final Location location = sheeplist[0].getLocation();
         final int[] tempo = {20};
         for (int i = 0; i < sheeplist.length; i++) {
@@ -216,18 +223,14 @@ public class Sorter implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+                player.sendMessage(ChatColor.BLUE + "Ovelhas ordenadas\n" + print_order(sheeplist));
             }
         }.runTaskLater(app, tempo[0]);
     }
 
     void insertion(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
-        player.sendMessage("Executando insertion sort");
+        player.sendMessage(ChatColor.RED + "Executando insertion sort");
         final Sheep[] inserir = new Sheep[1];
 
         final Location location = sheeplist[0].getLocation();
@@ -254,18 +257,14 @@ public class Sorter implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+                player.sendMessage(ChatColor.BLUE + "Ovelhas ordenadas\n" + print_order(sheeplist));
             }
         }.runTaskLater(app, tempo);
     }
 
     void selection(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        if (!statusVida) {
-            player.sendMessage("Use /sorter criar primeiro");
-            return;
-        }
-        player.sendMessage("Executando selection sort");
+        player.sendMessage(ChatColor.RED + "Executando selection sort");
         final Location location = sheeplist[0].getLocation();
         int tempo = 20;
         for (int i = 0; i < sheeplist.length; ++i) {
@@ -290,7 +289,7 @@ public class Sorter implements CommandExecutor {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.sendMessage("Ovelhas ordenadas\n" + print_order(sheeplist));
+                player.sendMessage(ChatColor.BLUE + "Ovelhas ordenadas\n" + print_order(sheeplist));
             }
         }.runTaskLater(app, tempo);
     }
