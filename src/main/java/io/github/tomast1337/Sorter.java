@@ -7,11 +7,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootContext;
+import org.bukkit.loot.LootTable;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Sorter implements CommandExecutor {
     private final DyeColor[] ordemCor = {
@@ -120,6 +122,7 @@ public class Sorter implements CommandExecutor {
                 sheeplist[i].setCustomName(String.valueOf(i + 1));
                 sheeplist[i].setColor(ordemCor[i]);
                 sheeplist[i].setAI(false);
+                sheeplist[i].setCustomNameVisible(true);
             }
             statusVida = true;
             Bukkit.broadcastMessage(ChatColor.BLUE + "Ovelhas Criadas\n" + print_order(sheeplist));
@@ -152,7 +155,7 @@ public class Sorter implements CommandExecutor {
             tempo += 10;
         }
         statusVida = false;
-        Bukkit.broadcastMessage(ChatColor.BLUE + "Ovelhas destruidas\nUse criar para fazer uma nova array");
+        Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Ovelhas destruidas\nUse criar para fazer uma nova array");
     }
 
     private void inverter(CommandSender sender) {
@@ -195,7 +198,7 @@ public class Sorter implements CommandExecutor {
 
     void bubble(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        Bukkit.broadcastMessage(ChatColor.RED + "Executando bubble sort");
+        Bukkit.broadcastMessage(ChatColor.RED + "Executando Bubble Sort");
         final Location location = sheeplist[0].getLocation();
         final int[] tempo = {20};
         for (int i = 0; i < sheeplist.length; i++) {
@@ -207,7 +210,7 @@ public class Sorter implements CommandExecutor {
                     @Override
                     public void run() {
                         sheeplist[finalJ].setGlowing(true);
-                        sheeplist[finalJ+1].setGlowing(true);
+                        sheeplist[finalJ + 1].setGlowing(true);
                         if (Integer.parseInt(sheeplist[finalJ].getName()) > Integer.parseInt(sheeplist[finalJ + 1].getName())) {
                             aux[0] = sheeplist[finalJ];
                             sheeplist[finalJ] = sheeplist[finalJ + 1];
@@ -227,12 +230,12 @@ public class Sorter implements CommandExecutor {
                 Bukkit.broadcastMessage(ChatColor.GOLD + "Ovelhas ordenadas\n" + print_order(sheeplist));
                 replace(location);
             }
-        }.runTaskLater(app, tempo[0]-speed);
+        }.runTaskLater(app, tempo[0] - speed);
     }
 
     void insertion(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        Bukkit.broadcastMessage(ChatColor.RED + "Executando insertion sort");
+        Bukkit.broadcastMessage(ChatColor.RED + "Executando Insertion Sort");
         final Sheep[] inserir = new Sheep[1];
 
         final Location location = sheeplist[0].getLocation();
@@ -266,7 +269,7 @@ public class Sorter implements CommandExecutor {
 
     void selection(CommandSender sender, final int speed) {
         final Player player = (Player) sender;
-        Bukkit.broadcastMessage(ChatColor.RED + "Executando selection sort");
+        Bukkit.broadcastMessage(ChatColor.RED + "Executando Selection Sort");
         final Location location = sheeplist[0].getLocation();
         int tempo = 20;
         for (int i = 0; i < sheeplist.length; ++i) {
