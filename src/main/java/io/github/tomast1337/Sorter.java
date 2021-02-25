@@ -113,6 +113,10 @@ public class Sorter implements CommandExecutor {
         return result.toString();
     }
 
+    void createParticle(Sheep sheep,Particle particle,int count) {
+        Objects.requireNonNull(sheep.getLocation().getWorld()).spawnParticle(particle, sheep.getLocation().add(0,1,0), count);
+    }
+
     void criar(CommandSender sender) {
         final Player player = (Player) sender;
         World world = player.getWorld();
@@ -123,6 +127,7 @@ public class Sorter implements CommandExecutor {
                 sheeplist[i].setColor(ordemCor[i]);
                 sheeplist[i].setAI(false);
                 sheeplist[i].setCustomNameVisible(true);
+                createParticle(sheeplist[i],Particle.EXPLOSION_HUGE,4);
             }
             statusVida = true;
             Bukkit.broadcastMessage(ChatColor.BLUE + "Ovelhas Criadas\n" + print_order(sheeplist));
@@ -149,10 +154,11 @@ public class Sorter implements CommandExecutor {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    createParticle(sheep,Particle.EXPLOSION_NORMAL,4);
                     sheep.damage(99);
                 }
             }.runTaskLater(app, tempo);
-            tempo += 10;
+            tempo += 3;
         }
         statusVida = false;
         Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Ovelhas destruidas\nUse criar para fazer uma nova array");
@@ -183,6 +189,7 @@ public class Sorter implements CommandExecutor {
                     list.toArray(sheeplist);
                     for (int i = 0; i < 16; i++) {
                         sheeplist[i].teleport(l);
+                        createParticle(sheeplist[i],Particle.COMPOSTER,4);
                         l.add(2, 0, 0);
                     }
                 }
@@ -205,18 +212,22 @@ public class Sorter implements CommandExecutor {
             for (int j = 0; j < sheeplist.length - 1; j++) {
                 final int finalJ = j;
                 final Sheep[] aux = new Sheep[1];
-
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         sheeplist[finalJ].setGlowing(true);
                         sheeplist[finalJ + 1].setGlowing(true);
                         if (Integer.parseInt(sheeplist[finalJ].getName()) > Integer.parseInt(sheeplist[finalJ + 1].getName())) {
+                            createParticle(sheeplist[finalJ],Particle.HEART,4);
+                            createParticle(sheeplist[finalJ+1],Particle.HEART,4);
+
                             aux[0] = sheeplist[finalJ];
                             sheeplist[finalJ] = sheeplist[finalJ + 1];
                             sheeplist[finalJ + 1] = aux[0];
                             replace(location);
                         } else {
+                            createParticle(sheeplist[finalJ],Particle.VILLAGER_ANGRY,4);
+                            createParticle(sheeplist[finalJ+1],Particle.VILLAGER_ANGRY,4);
                             tempo[0] -= speed;
                         }
                     }
@@ -244,12 +255,17 @@ public class Sorter implements CommandExecutor {
         final int[] j = {1};
         for (int i = 1; i < sheeplist.length; i++) {
             final int finalI = i;
+            sheeplist[i].setGlowing(true);
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     inserir[0] = sheeplist[finalI];
+                    sheeplist[finalI].setGlowing(true);
                     j[0] = finalI - 1;
                     while (j[0] >= 0 && Integer.parseInt(sheeplist[j[0]].getName()) > Integer.parseInt(inserir[0].getName())) {
+                        createParticle(sheeplist[j[0]],Particle.HEART,4);
+                        createParticle(inserir[0],Particle.HEART,4);
+
                         sheeplist[j[0] + 1] = sheeplist[j[0]];
                         j[0] = j[0] - 1;
                     }
@@ -280,7 +296,11 @@ public class Sorter implements CommandExecutor {
                     int menorIndex = finalI;
                     for (int j = finalI + 1; j < sheeplist.length; ++j) {
                         if (Integer.parseInt(sheeplist[j].getName()) < Integer.parseInt(sheeplist[menorIndex].getName())) {
+                            createParticle(sheeplist[j],Particle.HEART,4);
+                            createParticle(sheeplist[menorIndex],Particle.HEART,4);
                             menorIndex = j;
+                        }else{
+                            createParticle(sheeplist[j],Particle.VILLAGER_ANGRY,4);
                         }
                     }
                     Sheep aux = sheeplist[finalI];
