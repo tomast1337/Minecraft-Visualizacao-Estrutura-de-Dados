@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class App extends JavaPlugin {
     private static Sheep[] sheeplist;
-    public static final String[] sortCommandOptions = {"criar", "embaralhar", "inverter", "destruir", "mover", "bubble", "insertion", "selection"};
+    public static final String[] sortCommandOptions = {"criar", "embaralhar", "inverter", "destruir", "mover", "particula", "som", "bubble", "insertion", "selection"};
 
     @Override
     public void onEnable() {
@@ -30,12 +30,12 @@ public class App extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info(ChatColor.GOLD +"See you again, SpigotMC!");
+        getLogger().info(ChatColor.GOLD + "Desativando Algoritmos de ordenação visualização");
         try {
             for (Sheep sheep : sheeplist)
                 sheep.damage(99);
-        }catch (NullPointerException e) {
-            getLogger().info(ChatColor.GOLD +"Nem uma ovelha destruida");
+        } catch (NullPointerException e) {
+            getLogger().info(ChatColor.GOLD + "Nem uma ovelha destruida");
         }
     }
 
