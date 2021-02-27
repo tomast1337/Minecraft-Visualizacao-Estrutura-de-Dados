@@ -88,20 +88,18 @@ public class Sorter implements CommandExecutor {
 
     void particulasToggle() {
         statusParticulas = !statusParticulas;
-        if (statusSom)
-            Bukkit.broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Som Ativado");
-        else
-            Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Som Desativado");
-
-    }
-
-    void somToggle() {
-        statusSom = !statusSom;
         if (statusParticulas)
             Bukkit.broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Particulas Ativadas");
         else
             Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Particulas Desativadas");
+    }
 
+    void somToggle() {
+        statusSom = !statusSom;
+        if (statusSom)
+            Bukkit.broadcastMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Som Ativado");
+        else
+            Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "Som Desativado");
     }
 
     private boolean chekarStatusVida(CommandSender sender) {
@@ -137,7 +135,7 @@ public class Sorter implements CommandExecutor {
             Objects.requireNonNull(location.getWorld()).spawnParticle(particle, location.add(0, 1, 0), count);
         if (statusSom) {
             int sheepName = Integer.parseInt(sheep.getName());
-            float picht = (float) (0.5 *  Math.pow(2,ordemPich[sheepName - 1]/12));
+            float picht = (float) (0.5 * Math.pow(2, ordemPich[sheepName - 1] / 12));
             Objects.requireNonNull(location.getWorld()).playSound(location, Sound.BLOCK_NOTE_BLOCK_HARP, 12, picht);
         }
     }
@@ -152,7 +150,7 @@ public class Sorter implements CommandExecutor {
                 sheeplist[i].setColor(ordemCor[i]);
                 sheeplist[i].setAI(false);
                 sheeplist[i].setCustomNameVisible(true);
-                createEffects(sheeplist[i], Particle.EXPLOSION_HUGE, 4);
+                createEffects(sheeplist[i], Particle.EXPLOSION_HUGE, 1);
             }
             statusVida = true;
             Bukkit.broadcastMessage(ChatColor.BLUE + "Ovelhas Criadas\n" + print_order(sheeplist));
@@ -167,6 +165,7 @@ public class Sorter implements CommandExecutor {
         Location location = player.getLocation();
         for (Sheep sheep : sheeplist) {
             sheep.teleport(location);
+            createEffects(sheep, Particle.EXPLOSION_NORMAL, 1);
             location.add(2, 0, 0);
         }
         player.sendMessage(ChatColor.BLUE + "Ovelhas movidas para sua localização");
@@ -179,7 +178,7 @@ public class Sorter implements CommandExecutor {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    createEffects(sheep, Particle.EXPLOSION_NORMAL, 4);
+                    createEffects(sheep, Particle.EXPLOSION_NORMAL, 1);
                     sheep.damage(99);
                 }
             }.runTaskLater(app, tempo);
