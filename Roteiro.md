@@ -65,6 +65,6 @@ O chinês dessa função fica dessa forma:
 
 ### Opnião sobre os algoritmo 
 
-Na minha opinião o algoritmo mais fácil de implementar é o Bubble Sort, apesar da ideia dele não ser muito poxima do "senso comum" ele é muito curto TODO: Melhor explicar.
+Na minha opinião o algoritmo mais fácil de implementar é o Bubble Sort, apesar da ideia dele não ser muito poxima do "senso comum" ele é muito curto a ideia simplificada é passe os maiores valores para o final 
 
 O mais eficiente é o Insertion Sort TODO
