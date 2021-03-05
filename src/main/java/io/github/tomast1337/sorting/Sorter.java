@@ -32,7 +32,10 @@ public class Sorter implements CommandExecutor {
                     case "menu":
                         menu(player);
                         break;
-                    case "ordenar":
+                    case "configurar":
+                        configurar(player);
+                        break;
+                    case "algoritmos":
                         ordenar(player);
                         break;
                     default:
@@ -123,5 +126,49 @@ public class Sorter implements CommandExecutor {
 
     private void ordenar(Player player) {
         player.sendMessage("");
+    }
+
+    private void configurar(Player player) {
+        String somStatus = sheeplist.getStatusSom() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
+        String particulaStatus = sheeplist.getStatusParticulas() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
+
+
+        String[] guiSetup = new String[]{"*********", "***s*p***", "*********"};
+        InventoryGui gui = new InventoryGui(app, "Sorter Menu", guiSetup);
+        gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
+
+        gui.addElement(new StaticGuiElement('s', new ItemStack(Material.JUKEBOX), 1,
+                        InventoryClickEvent -> {
+                            if (sheeplist.somToggle()) {
+                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
+                            } else {
+                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
+                            }
+
+                            player.closeInventory();
+                            return true;
+                        },
+                        "Ativar/Desativar Som",
+                        somStatus
+
+                )
+        );
+        gui.addElement(new StaticGuiElement('p', new ItemStack(Material.CAMPFIRE), 1,
+                        InventoryClickEvent -> {
+                            if (sheeplist.particulasToggle()) {
+                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Particulas Ativadas");
+                            } else {
+                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Particulas  Desativadas");
+                            }
+
+                            player.closeInventory();
+                            return true;
+                        },
+                        "Ativar/Desativar Particulas",
+                        particulaStatus
+
+                )
+        );
+        gui.show(player);
     }
 }

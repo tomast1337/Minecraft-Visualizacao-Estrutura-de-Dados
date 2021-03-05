@@ -96,27 +96,21 @@ public class SheepList {
         return statusVida;
     }
 
-    public void setStatusVida(Boolean statusVida) {
-        this.statusVida = statusVida;
-    }
-
     public Boolean getStatusParticulas() {
         return statusParticulas;
-    }
-
-    public void setStatusParticulas(Boolean statusParticulas) {
-        this.statusParticulas = statusParticulas;
     }
 
     public Boolean getStatusSom() {
         return statusSom;
     }
 
-    public void setStatusSom(Boolean statusSom) {
-        this.statusSom = statusSom;
+    public boolean somToggle() {
+        statusSom = !statusSom;
+        return statusSom;
     }
 
-    public void setEscalaSom(float[] escalaSom) {
-        this.escalaSom = escalaSom;
+    public boolean particulasToggle() {
+        statusParticulas = !statusParticulas;
+        return statusParticulas;
     }
 }
