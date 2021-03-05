@@ -1,6 +1,8 @@
 # Minecraft-Visualizacao-Estrutura-de-Dados
 
-Essa verção possui os algoritmos de ordenação 
+Esse é um plugin para Spigot que tem como objetivo implementar a visualização dessas estrutura no Minecraft
+
+Essa versão possui os algoritmos de ordenação 
 - Bubble Sort
 - Insertion Sort
 - Selection Sort
