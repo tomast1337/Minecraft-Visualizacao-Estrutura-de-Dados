@@ -1,3 +1,10 @@
 # Minecraft-Visualizacao-Estrutura-de-Dados
 
-Um plugin para servidores spigot que permite a visualização de alguns algoritmos de ordenação através de ovelhas no minecraft
+Essa verção possui os algoritmos de ordenação 
+- Bubble Sort
+- Insertion Sort
+- Selection Sort
+
+Opçoes:
+- Som apenas em escala menor harmonica
+- Particulas idicando trocas e comparações
