@@ -39,7 +39,7 @@ public class Sorter implements CommandExecutor {
                         ordenar(player);
                         break;
                     default:
-                        player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter com os criar, embaralhar, destruir, mover, bubble, insertion, selection,");
+                        player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu] [configurar] ou [algoritmos]");
                         break;
                 }
             }
@@ -125,7 +125,50 @@ public class Sorter implements CommandExecutor {
     }
 
     private void ordenar(Player player) {
-        player.sendMessage("");
+        String[] guiSetup = new String[]{"*1**9**4*", "*2**8**5*", "*3**7**6*"};
+        InventoryGui gui = new InventoryGui(app, "Sorter Algoritmos", guiSetup);
+        gui.setFiller(new ItemStack(Material.END_STONE, 1));
+
+        gui.addElement(new StaticGuiElement('1', new ItemStack(Material.EMERALD_BLOCK), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('2', new ItemStack(Material.KNOWLEDGE_BOOK), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('3', new ItemStack(Material.TOTEM_OF_UNDYING), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+
+        gui.addElement(new StaticGuiElement('4', new ItemStack(Material.PAPER), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('5', new ItemStack(Material.MOSSY_COBBLESTONE_WALL), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('6', new ItemStack(Material.SALMON), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+
+        gui.addElement(new StaticGuiElement('7', new ItemStack(Material.RED_MUSHROOM_BLOCK), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('8', new ItemStack(Material.ICE), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        gui.addElement(new StaticGuiElement('9', new ItemStack(Material.END_PORTAL_FRAME), 1, InventoryClickEvent -> {
+
+            return true;
+        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+
+        gui.show(player);
     }
 
     private void configurar(Player player) {
@@ -133,17 +176,17 @@ public class Sorter implements CommandExecutor {
         String particulaStatus = sheeplist.getStatusParticulas() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
 
 
-        String[] guiSetup = new String[]{"*********", "***s*p***", "*********"};
-        InventoryGui gui = new InventoryGui(app, "Sorter Menu", guiSetup);
+        String[] guiSetup = new String[]{"*********", "**s***p**", "*********"};
+        InventoryGui gui = new InventoryGui(app, "Sorter Configurações", guiSetup);
         gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
 
         gui.addElement(new StaticGuiElement('s', new ItemStack(Material.JUKEBOX), 1,
-                        InventoryClickEvent -> {
-                            if (sheeplist.somToggle()) {
-                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
-                            } else {
-                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
-                            }
+                InventoryClickEvent -> {
+                    if (sheeplist.somToggle()) {
+                        Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
+                    } else {
+                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
+                    }
 
                             player.closeInventory();
                             return true;
