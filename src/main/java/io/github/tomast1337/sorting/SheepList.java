@@ -22,6 +22,8 @@ public class SheepList {
     private Boolean statusVida = false;
     private Boolean statusParticulas = true;
     private Boolean statusSom = true;
+    private int velocidade = 10;
+    private int volume = 10;
     private float[] escalaSom;
 
 
@@ -92,6 +94,16 @@ public class SheepList {
         return string.toString();
     }
 
+    public boolean somToggle() {
+        statusSom = !statusSom;
+        return statusSom;
+    }
+
+    public boolean particulasToggle() {
+        statusParticulas = !statusParticulas;
+        return statusParticulas;
+    }
+
     public Boolean getStatusVida() {
         return statusVida;
     }
@@ -104,13 +116,19 @@ public class SheepList {
         return statusSom;
     }
 
-    public boolean somToggle() {
-        statusSom = !statusSom;
-        return statusSom;
+    public int getVelocidade() {
+        return velocidade;
     }
 
-    public boolean particulasToggle() {
-        statusParticulas = !statusParticulas;
-        return statusParticulas;
+    public void setVelocidade(int velocidade) {
+        this.velocidade = velocidade;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 }

@@ -27,6 +27,10 @@ public class Sorter implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+
+            int volume = args.length > 1 ? Integer.parseInt(args[1]) : 10;
+            int velocidade = args.length > 1 ? Integer.parseInt(args[1]) : 10;
+
             if (args.length > 0) {
                 switch (args[0].toLowerCase()) {
                     case "menu":
@@ -37,6 +41,16 @@ public class Sorter implements CommandExecutor {
                         break;
                     case "algoritmos":
                         ordenar(player);
+                        break;
+                    case "volume":
+                        sheeplist.setVolume(volume);
+                        Bukkit.broadcastMessage("Volume alterado para " + ChatColor.GOLD + "" + ChatColor.GOLD + sheeplist.getVolume());
+                        break;
+                    case "velocidade":
+                        sheeplist.setVelocidade(velocidade);
+                        Bukkit.broadcastMessage("Velocidade alterada para "
+                                + ChatColor.GOLD + "" + ChatColor.GOLD + sheeplist.getVelocidade() + ChatColor.RESET + " ticks ou "
+                                + ChatColor.GOLD + "" + ChatColor.GOLD + (float) sheeplist.getVelocidade() / 20 + ChatColor.RESET + " segundos entre cada interação");
                         break;
                     default:
                         player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu] [configurar] ou [algoritmos]");
@@ -132,41 +146,41 @@ public class Sorter implements CommandExecutor {
         gui.addElement(new StaticGuiElement('1', new ItemStack(Material.EMERALD_BLOCK), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('2', new ItemStack(Material.KNOWLEDGE_BOOK), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('3', new ItemStack(Material.TOTEM_OF_UNDYING), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
 
         gui.addElement(new StaticGuiElement('4', new ItemStack(Material.PAPER), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('5', new ItemStack(Material.MOSSY_COBBLESTONE_WALL), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('6', new ItemStack(Material.SALMON), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
 
         gui.addElement(new StaticGuiElement('7', new ItemStack(Material.RED_MUSHROOM_BLOCK), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('8', new ItemStack(Material.ICE), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
         gui.addElement(new StaticGuiElement('9', new ItemStack(Material.END_PORTAL_FRAME), 1, InventoryClickEvent -> {
 
             return true;
-        }, "", ChatColor.GOLD + "Executando algoritmo de ordenação"));
+        }, "", ChatColor.GOLD + "Executar algoritmo de ordenação"));
 
         gui.show(player);
     }
@@ -181,12 +195,12 @@ public class Sorter implements CommandExecutor {
         gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
 
         gui.addElement(new StaticGuiElement('s', new ItemStack(Material.JUKEBOX), 1,
-                InventoryClickEvent -> {
-                    if (sheeplist.somToggle()) {
-                        Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
-                    } else {
-                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
-                    }
+                        InventoryClickEvent -> {
+                            if (sheeplist.somToggle()) {
+                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
+                            } else {
+                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
+                            }
 
                             player.closeInventory();
                             return true;
