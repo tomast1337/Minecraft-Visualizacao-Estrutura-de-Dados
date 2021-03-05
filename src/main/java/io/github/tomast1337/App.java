@@ -1,5 +1,7 @@
 package io.github.tomast1337;
 
+import io.github.tomast1337.sorting.SheepList;
+import io.github.tomast1337.sorting.Sorter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,31 +14,33 @@ import java.util.List;
 import java.util.Objects;
 
 public class App extends JavaPlugin {
-    private static Sheep[] sheeplist;
-    public static final String[] sortCommandOptions = {"criar", "embaralhar", "inverter", "destruir", "mover", "particula", "som", "bubble", "insertion", "selection"};
+    public static final String[] sortCommandOptions = {"particula", "som", "bubble", "insertion", "selection"};
+    private static SheepList sheeplist;
 
     @Override
     public void onEnable() {
-        sheeplist = new Sheep[16];
         getLogger().info(ChatColor.GOLD + "Algoritmos de ordenação visualização");
-        Objects.requireNonNull(this.getCommand("Sorter")).setTabCompleter(new TabCompleter() {
-            @Override
-            public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-                return Arrays.asList(sortCommandOptions);
-            }
-        });
+
+        sheeplist = new SheepList(16);
         Objects.requireNonNull(this.getCommand("Sorter")).setExecutor(new Sorter(sheeplist, this));
+
+        Objects.requireNonNull(this.getCommand("Sorter")).setTabCompleter(
+                new TabCompleter() {
+                    @Override
+                    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+                        return Arrays.asList(sortCommandOptions);
+                    }
+                }
+        );
     }
 
     @Override
     public void onDisable() {
         getLogger().info(ChatColor.GOLD + "Desativando Algoritmos de ordenação visualização");
-        try {
-            for (Sheep sheep : sheeplist)
+        if (sheeplist.getStatusVida())
+            for (Sheep sheep : sheeplist.sheeplist)
                 sheep.damage(99);
-        } catch (NullPointerException e) {
-            getLogger().info(ChatColor.GOLD + "Nem uma ovelha destruida");
-        }
+
     }
 
 

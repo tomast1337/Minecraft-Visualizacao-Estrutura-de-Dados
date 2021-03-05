@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ShortingInMinecraft" />
         <module name="blankPlugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="blankPlugin" target="1.7" />
+      <module name="ShortingInMinecraft" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
