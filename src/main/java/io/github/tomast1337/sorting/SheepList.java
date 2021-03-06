@@ -31,7 +31,7 @@ public class SheepList {
 
     public SheepList(int size) {
         this.sheeplist = new Sheep[size];
-        escalaSom = Escalas.escalaMenorHarmobica;
+        escalaSom = Escalas.escalaMaior;
     }
 
     public boolean criar(Location location, World world) {
@@ -152,6 +152,14 @@ public class SheepList {
 
     public Boolean getStatusSom() {
         return statusSom;
+    }
+
+    public float[] getEscalaSom() {
+        return escalaSom;
+    }
+
+    public void setEscalaSom(float[] escalaSom) {
+        this.escalaSom = escalaSom;
     }
 
     public int getVelocidade() {
