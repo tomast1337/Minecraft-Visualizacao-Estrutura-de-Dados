@@ -3,6 +3,7 @@ package io.github.tomast1337.sorting;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import io.github.tomast1337.App;
+import io.github.tomast1337.util.Escalas;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -199,42 +200,87 @@ public class Sorter implements CommandExecutor {
         String particulaStatus = sheeplist.getStatusParticulas() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
 
 
-        String[] guiSetup = new String[]{"*********", "**s***p**", "*********"};
+        String[] guiSetup = new String[]{"*********", "**s***p**", "*1234567*"};
         InventoryGui gui = new InventoryGui(app, "Sorter Configurações", guiSetup);
         gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
 
         gui.addElement(new StaticGuiElement('s', new ItemStack(Material.JUKEBOX), 1,
                         InventoryClickEvent -> {
-                            if (sheeplist.somToggle()) {
+                            if (sheeplist.somToggle())
                                 Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
-                            } else {
+                            else
                                 Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
-                            }
-
                             player.closeInventory();
                             return true;
                         },
                         "Ativar/Desativar Som",
                         somStatus
-
                 )
         );
         gui.addElement(new StaticGuiElement('p', new ItemStack(Material.CAMPFIRE), 1,
                         InventoryClickEvent -> {
-                            if (sheeplist.particulasToggle()) {
+                            if (sheeplist.particulasToggle())
                                 Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Particulas Ativadas");
-                            } else {
+                            else
                                 Bukkit.broadcastMessage(ChatColor.DARK_RED + "Particulas  Desativadas");
-                            }
-
                             player.closeInventory();
                             return true;
                         },
                         "Ativar/Desativar Particulas",
                         particulaStatus
-
                 )
         );
+
+        gui.addElement(new StaticGuiElement('1', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior");
+                    sheeplist.setEscalaSom(Escalas.escalaMaior);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Maior"));
+        gui.addElement(new StaticGuiElement('2', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Blues Menor");
+                    sheeplist.setEscalaSom(Escalas.escalaBluesMenor);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Blues Meno"));
+        gui.addElement(new StaticGuiElement('3', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Menor Harmonica");
+                    sheeplist.setEscalaSom(Escalas.escalaMaior);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Menor Harmonica"));
+        gui.addElement(new StaticGuiElement('4', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Phrygia");
+                    sheeplist.setEscalaSom(Escalas.escalaPhrygia);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Phrygia"));
+        gui.addElement(new StaticGuiElement('5', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 1");
+                    sheeplist.setEscalaSom(Escalas.escalaCromatica1);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Cromatica 1"));
+        gui.addElement(new StaticGuiElement('6', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 2");
+                    sheeplist.setEscalaSom(Escalas.escalaCromatica2);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Cromatica 2"));
+        gui.addElement(new StaticGuiElement('7', new ItemStack(Material.NOTE_BLOCK), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 3");
+                    sheeplist.setEscalaSom(Escalas.escalaCromatica3);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala Cromatica 3"));
+
         gui.show(player);
     }
 }
