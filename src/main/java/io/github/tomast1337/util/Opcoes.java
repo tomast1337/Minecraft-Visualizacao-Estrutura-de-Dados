@@ -23,11 +23,11 @@ public class Opcoes {
             /*8*/ Sound.BLOCK_NOTE_BLOCK_FLUTE,
             /*9*/ Sound.BLOCK_NOTE_BLOCK_GUITAR,
             /*10*/Sound.BLOCK_NOTE_BLOCK_HARP,
-            /*11*/Sound.BLOCK_NOTE_BLOCK_HAT,
+            /*11*/Sound.BLOCK_NOTE_BLOCK_XYLOPHONE,
             /*12*/Sound.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE,
             /*13*/Sound.BLOCK_NOTE_BLOCK_PLING,
             /*14*/Sound.BLOCK_NOTE_BLOCK_SNARE,
-            /*15*/Sound.BLOCK_NOTE_BLOCK_XYLOPHONE
+            /*15*/ Sound.BLOCK_NOTE_BLOCK_HAT
     };
     public static Particle[] particulas = new Particle[]{
             /*0*/Particle.HEART,
