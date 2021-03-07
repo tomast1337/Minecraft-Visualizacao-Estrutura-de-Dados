@@ -22,8 +22,8 @@ public class SheepList {
     private Boolean statusVida = false;
     private Boolean statusParticulas = true;
     private Boolean statusSom = true;
-    private int velocidade = 10;
-    private int volume = 10;
+    private int velocidade = 3;
+    private int volume = 12;
     private float[] escalaSom;
     private int indexInstrumento = 0;
 
