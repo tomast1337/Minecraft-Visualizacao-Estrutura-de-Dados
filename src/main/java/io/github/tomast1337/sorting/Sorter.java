@@ -245,73 +245,43 @@ public class Sorter implements CommandExecutor {
                         somStatus
                 )
         );
-        gui.addElement(new StaticGuiElement('1', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior");
-                    sheeplist.setEscalaSom(Opcoes.escalaMaior);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Maior"));
-        gui.addElement(new StaticGuiElement('2', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Blues Menor");
-                    sheeplist.setEscalaSom(Opcoes.escalaBluesMenor);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Blues Meno"));
-        gui.addElement(new StaticGuiElement('3', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Menor Harmonica");
-                    sheeplist.setEscalaSom(Opcoes.escalaMaior);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Menor Harmonica"));
-        gui.addElement(new StaticGuiElement('4', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Phrygia");
-                    sheeplist.setEscalaSom(Opcoes.escalaPhrygia);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Phrygia"));
-        gui.addElement(new StaticGuiElement('5', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 1");
-                    sheeplist.setEscalaSom(Opcoes.escalaCromatica1);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Cromatica 1"));
-        gui.addElement(new StaticGuiElement('6', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 2");
-                    sheeplist.setEscalaSom(Opcoes.escalaCromatica2);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Cromatica 2"));
-        gui.addElement(new StaticGuiElement('7', new ItemStack(Material.NOTE_BLOCK), 1,
-                InventoryClickEvent -> {
-                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 3");
-                    sheeplist.setEscalaSom(Opcoes.escalaCromatica3);
-                    player.closeInventory();
-                    return true;
-                }, "Selecionar escala Cromatica 3"));
-        gui.addElement(instrumentoGuiElement('q', 0, Material.NOTE_BLOCK, "Banjo", player));
-        gui.addElement(instrumentoGuiElement('w', 1, Material.NOTE_BLOCK, "Bumbo", player));
-        gui.addElement(instrumentoGuiElement('e', 2, Material.NOTE_BLOCK, "Baixo", player));
-        gui.addElement(instrumentoGuiElement('r', 3, Material.NOTE_BLOCK, "Sino", player));
-        gui.addElement(instrumentoGuiElement('t', 4, Material.NOTE_BLOCK, "Bit", player));
-        gui.addElement(instrumentoGuiElement('y', 5, Material.NOTE_BLOCK, "Carrinho", player));
-        gui.addElement(instrumentoGuiElement('u', 6, Material.NOTE_BLOCK, "Sino De Vaca", player));
-        gui.addElement(instrumentoGuiElement('i', 7, Material.NOTE_BLOCK, "Didgeridoo", player));
-        gui.addElement(instrumentoGuiElement('o', 8, Material.NOTE_BLOCK, "Flauta", player));
-        gui.addElement(instrumentoGuiElement('p', 9, Material.NOTE_BLOCK, "Guitarra", player));
-        gui.addElement(instrumentoGuiElement('a', 10, Material.NOTE_BLOCK, "Harpa", player));
-        gui.addElement(instrumentoGuiElement('s', 11, Material.NOTE_BLOCK, "Xilofone", player));
-        gui.addElement(instrumentoGuiElement('d', 12, Material.NOTE_BLOCK, "Xilofone De Ferro", player));
-        gui.addElement(instrumentoGuiElement('f', 13, Material.NOTE_BLOCK, "Sino Longo", player));
-        gui.addElement(instrumentoGuiElement('g', 14, Material.NOTE_BLOCK, "Snare", player));
-        gui.addElement(instrumentoGuiElement('h', 15, Material.NOTE_BLOCK, "Chapéu", player));
+
+        gui.addElement(instrumentoGuiElement('1', Material.NOTE_BLOCK, "Menor Harmonica", Opcoes.escalaMenorHarmonica, player));
+        gui.addElement(instrumentoGuiElement('2', Material.NOTE_BLOCK, "Maior", Opcoes.escalaMaior, player));
+        gui.addElement(instrumentoGuiElement('3', Material.NOTE_BLOCK, "Phrygia", Opcoes.escalaPhrygia, player));
+        gui.addElement(instrumentoGuiElement('4', Material.NOTE_BLOCK, "Blues Menor", Opcoes.escalaBluesMenor, player));
+        gui.addElement(instrumentoGuiElement('5', Material.NOTE_BLOCK, "Cromatica 1", Opcoes.escalaCromatica1, player));
+        gui.addElement(instrumentoGuiElement('6', Material.NOTE_BLOCK, "Cromatica 2", Opcoes.escalaCromatica2, player));
+        gui.addElement(instrumentoGuiElement('7', Material.NOTE_BLOCK, "Cromatica 3", Opcoes.escalaCromatica3, player));
+
+        gui.addElement(instrumentoGuiElement('q', 0, Material.WHITE_SHULKER_BOX, "Banjo", player));
+        gui.addElement(instrumentoGuiElement('w', 1, Material.LIGHT_GRAY_SHULKER_BOX, "Bumbo", player));
+        gui.addElement(instrumentoGuiElement('e', 2, Material.GRAY_SHULKER_BOX, "Baixo", player));
+        gui.addElement(instrumentoGuiElement('r', 3, Material.BLACK_SHULKER_BOX, "Sino", player));
+        gui.addElement(instrumentoGuiElement('t', 4, Material.BROWN_SHULKER_BOX, "Bit", player));
+        gui.addElement(instrumentoGuiElement('y', 5, Material.RED_SHULKER_BOX, "Carrinho", player));
+        gui.addElement(instrumentoGuiElement('u', 6, Material.ORANGE_SHULKER_BOX, "Sino De Vaca", player));
+        gui.addElement(instrumentoGuiElement('i', 7, Material.YELLOW_SHULKER_BOX, "Didgeridoo", player));
+        gui.addElement(instrumentoGuiElement('o', 8, Material.LIME_SHULKER_BOX, "Flauta", player));
+        gui.addElement(instrumentoGuiElement('p', 9, Material.GREEN_SHULKER_BOX, "Guitarra", player));
+        gui.addElement(instrumentoGuiElement('a', 10, Material.LIGHT_BLUE_SHULKER_BOX, "Harpa", player));
+        gui.addElement(instrumentoGuiElement('s', 11, Material.CYAN_SHULKER_BOX, "Xilofone", player));
+        gui.addElement(instrumentoGuiElement('d', 12, Material.BLUE_SHULKER_BOX, "Xilofone De Ferro", player));
+        gui.addElement(instrumentoGuiElement('f', 13, Material.PINK_SHULKER_BOX, "Sino Longo", player));
+        gui.addElement(instrumentoGuiElement('g', 14, Material.PURPLE_SHULKER_BOX, "Snare", player));
+        gui.addElement(instrumentoGuiElement('h', 15, Material.MAGENTA_SHULKER_BOX, "Chapéu", player));
 
         gui.show(player);
+    }
+
+    private StaticGuiElement instrumentoGuiElement(char slot, Material material, String nomeEscala, float[] escalaSom, Player player) {
+        return new StaticGuiElement('7', new ItemStack(material), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical " + nomeEscala);
+                    sheeplist.setEscalaSom(escalaSom);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar escala " + nomeEscala);
     }
 
     private StaticGuiElement instrumentoGuiElement(char slot, int index, Material material, String nomeInstrumento, Player player) {
