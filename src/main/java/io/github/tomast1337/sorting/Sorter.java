@@ -38,8 +38,11 @@ public class Sorter implements CommandExecutor {
                     case "menu":
                         menu(player);
                         break;
-                    case "configurar":
-                        configurar(player);
+                    case "configurar_som":
+                        configurarSom(player);
+                        break;
+                    case "configurar_particulas":
+                        configurarParticulas(player);
                         break;
                     case "algoritmos":
                         ordenar(player);
@@ -70,9 +73,9 @@ public class Sorter implements CommandExecutor {
 
         String[] guiSetup;
         if (sheeplist.getStatusVida()) {
-            guiSetup = new String[]{"    d    ", "   mei   ", "         "};
+            guiSetup = new String[]{"         ", "   mei   ", "        d"};
         } else {
-            guiSetup = new String[]{"    c    "};
+            guiSetup = new String[]{"ccccccccc"};
         }
 
         InventoryGui gui = new InventoryGui(app, "Sorter Menu", guiSetup);
@@ -83,6 +86,7 @@ public class Sorter implements CommandExecutor {
 
                     if (sheeplist.criar(location, player.getWorld())) {
                         Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas criadas em " + player.getLocation().toVector().toString());
+                        Bukkit.broadcastMessage(ChatColor.GOLD + sheeplist.printArray());
                     } else {
                         Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas ja criadas");
                     }
@@ -106,8 +110,9 @@ public class Sorter implements CommandExecutor {
         ));
         gui.addElement(new StaticGuiElement('e', new ItemStack(Material.MUSIC_DISC_CAT), 1,
                 click -> {
-                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Ovelhas embaralhadas!");
                     sheeplist.embaralhar();
+                    Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "Ovelhas embaralhadas!");
+                    Bukkit.broadcastMessage(ChatColor.GOLD + sheeplist.printArray());
                     gui.close();
                     return true;
                 },
@@ -117,8 +122,9 @@ public class Sorter implements CommandExecutor {
         ));
         gui.addElement(new StaticGuiElement('i', new ItemStack(Material.TWISTING_VINES), 1,
                 click -> {
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "Ovelhas invertidas!");
                     sheeplist.inverter();
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "Ovelhas invertidas!");
+                    Bukkit.broadcastMessage(ChatColor.GOLD + sheeplist.printArray());
                     gui.close();
                     return true;
                 },
@@ -197,29 +203,12 @@ public class Sorter implements CommandExecutor {
         gui.show(player);
     }
 
-    private void configurar(Player player) {
-        String somStatus = sheeplist.getStatusSom() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
+    private void configurarParticulas(Player player) {
         String particulaStatus = sheeplist.getStatusParticulas() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
-
-
-        String[] guiSetup = new String[]{"*********", "**s***p**", "*1234567*"};
+        String[] guiSetup = new String[]{"    h    "};
         InventoryGui gui = new InventoryGui(app, "Sorter Configurações", guiSetup);
         gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
-
-        gui.addElement(new StaticGuiElement('s', new ItemStack(Material.JUKEBOX), 1,
-                        InventoryClickEvent -> {
-                            if (sheeplist.somToggle())
-                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
-                            else
-                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
-                            player.closeInventory();
-                            return true;
-                        },
-                        "Ativar/Desativar Som",
-                        somStatus
-                )
-        );
-        gui.addElement(new StaticGuiElement('p', new ItemStack(Material.CAMPFIRE), 1,
+        gui.addElement(new StaticGuiElement('h', new ItemStack(Material.CAMPFIRE), 1,
                         InventoryClickEvent -> {
                             if (sheeplist.particulasToggle())
                                 Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Particulas Ativadas");
@@ -232,7 +221,30 @@ public class Sorter implements CommandExecutor {
                         particulaStatus
                 )
         );
+        gui.show(player);
+    }
 
+    private void configurarSom(Player player) {
+        String somStatus = sheeplist.getStatusSom() ? ChatColor.GREEN + "Ativado" : ChatColor.RED + "Desativo";
+
+
+        String[] guiSetup = new String[]{"123456789", "qwertyuio", "pasdfghjk"};
+        InventoryGui gui = new InventoryGui(app, "Sorter Configurações", guiSetup);
+        gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
+
+        gui.addElement(new StaticGuiElement('j', new ItemStack(Material.JUKEBOX), 1,
+                        InventoryClickEvent -> {
+                            if (sheeplist.somToggle())
+                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Som Ativado");
+                            else
+                                Bukkit.broadcastMessage(ChatColor.DARK_RED + "Som Desativado");
+                            player.closeInventory();
+                            return true;
+                        },
+                        "Ativar/Desativar Som",
+                        somStatus
+                )
+        );
         gui.addElement(new StaticGuiElement('1', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior");
@@ -282,7 +294,33 @@ public class Sorter implements CommandExecutor {
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Cromatica 3"));
+        gui.addElement(instrumentoGuiElement('q', 0, Material.NOTE_BLOCK, "Banjo", player));
+        gui.addElement(instrumentoGuiElement('w', 1, Material.NOTE_BLOCK, "Bumbo", player));
+        gui.addElement(instrumentoGuiElement('e', 2, Material.NOTE_BLOCK, "Baixo", player));
+        gui.addElement(instrumentoGuiElement('r', 3, Material.NOTE_BLOCK, "Sino", player));
+        gui.addElement(instrumentoGuiElement('t', 4, Material.NOTE_BLOCK, "Bit", player));
+        gui.addElement(instrumentoGuiElement('y', 5, Material.NOTE_BLOCK, "Carrinho", player));
+        gui.addElement(instrumentoGuiElement('u', 6, Material.NOTE_BLOCK, "Sino De Vaca", player));
+        gui.addElement(instrumentoGuiElement('i', 7, Material.NOTE_BLOCK, "Didgeridoo", player));
+        gui.addElement(instrumentoGuiElement('o', 8, Material.NOTE_BLOCK, "Flauta", player));
+        gui.addElement(instrumentoGuiElement('p', 9, Material.NOTE_BLOCK, "Guitarra", player));
+        gui.addElement(instrumentoGuiElement('a', 10, Material.NOTE_BLOCK, "Harpa", player));
+        gui.addElement(instrumentoGuiElement('s', 11, Material.NOTE_BLOCK, "Xilofone", player));
+        gui.addElement(instrumentoGuiElement('d', 12, Material.NOTE_BLOCK, "Xilofone De Ferro", player));
+        gui.addElement(instrumentoGuiElement('f', 13, Material.NOTE_BLOCK, "Sino Longo", player));
+        gui.addElement(instrumentoGuiElement('g', 14, Material.NOTE_BLOCK, "Snare", player));
+        gui.addElement(instrumentoGuiElement('h', 15, Material.NOTE_BLOCK, "Chapéu", player));
 
         gui.show(player);
+    }
+
+    private StaticGuiElement instrumentoGuiElement(char slot, int index, Material material, String nomeInstrumento, Player player) {
+        return new StaticGuiElement(slot, new ItemStack(material), 1,
+                InventoryClickEvent -> {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado instrumento " + nomeInstrumento);
+                    sheeplist.setIndexInstrumento(index);
+                    player.closeInventory();
+                    return true;
+                }, "Selecionar instrumento " + nomeInstrumento);
     }
 }
