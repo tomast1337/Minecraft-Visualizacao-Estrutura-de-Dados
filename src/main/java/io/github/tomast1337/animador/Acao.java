@@ -1,6 +1,7 @@
 package io.github.tomast1337.animador;
 
 import io.github.tomast1337.util.Opcoes;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -15,11 +16,14 @@ public enum Acao {
     Som;
 
     private static void executarTrocaPulo(int[] param, Entity[] alvos) {
-
+        Location pos1 = alvos[0].getLocation();
+        Location pos2 = alvos[1].getLocation();
+        alvos[0].teleport(pos2);
+        alvos[1].teleport(pos1);
     }
 
     private static void executarParticula(int[] param, Entity[] alvos) {
-        Particle particle = Particle.HEART;
+        Particle particle = Opcoes.particulas[param[0]];
         for (Entity alvo : alvos) {
             Objects.requireNonNull(alvo.getLocation().getWorld()).spawnParticle(particle, alvo.getLocation().add(0, 1, 0), 1);
         }
