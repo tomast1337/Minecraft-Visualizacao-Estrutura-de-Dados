@@ -103,6 +103,14 @@ public class SheepList {
         return statusParticulas;
     }
 
+    public String printArray() {
+        StringBuilder result = new StringBuilder("[");
+        for (Sheep sheep : sheeplist) {
+            result.append(Integer.parseInt(sheep.getName())).append(" ");
+        }
+        return result.append("]").toString();
+    }
+
     public Boolean getStatusVida() {
         return statusVida;
     }
