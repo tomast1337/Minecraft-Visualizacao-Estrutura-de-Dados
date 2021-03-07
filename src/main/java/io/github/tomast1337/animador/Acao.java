@@ -1,13 +1,13 @@
 package io.github.tomast1337.animador;
 
-import io.github.tomast1337.util.Escalas;
+import io.github.tomast1337.util.Opcoes;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 
 import java.util.Objects;
 
-import static io.github.tomast1337.util.Escalas.notaParaTom;
+import static io.github.tomast1337.util.Opcoes.notaParaTom;
 
 public enum Acao {
     TrocaPulo,
@@ -31,9 +31,9 @@ public enum Acao {
             int volume = 12;
             Sound som;
             if (param.length == 1) {
-                som = Escalas.instrumentos[param[0]];
+                som = Opcoes.instrumentos[param[0]];
             } else {
-                som = Escalas.instrumentos[param[0]];
+                som = Opcoes.instrumentos[param[0]];
                 volume = param[1];
             }
             Objects.requireNonNull(alvo.getLocation().getWorld()).playSound(alvo.getLocation(), som, volume, notaParaTom(nome - 1));

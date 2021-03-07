@@ -12,7 +12,7 @@ import static io.github.tomast1337.sorting.SortingAlg.*;
 
 public class Animador {
     public static void executarSorting(SortingAlg sortingAlg, App app, SheepList sheeplist) {
-        ArrayList<ArrayList<Instrucao>> animacao = new ArrayList<ArrayList<Instrucao>>();
+        ArrayList<ArrayList<Instrucao>> animacao = new ArrayList<>();
         switch (sortingAlg) {
             case BUBBLE_SORT:
                 animacao = bubbleSort(sheeplist);
@@ -44,20 +44,20 @@ public class Animador {
             default:
                 break;
         }
-        Animador.AnimarSheepList(app, sheeplist, animacao);
+        AnimarSheepList(app, sheeplist, animacao);
     }
 
     public static void AnimarSheepList(App app, SheepList sheepList, ArrayList<ArrayList<Instrucao>> instrucoes) {
         int tempo = 0;
         for (ArrayList<Instrucao> linha : instrucoes) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    for (Instrucao ordem : linha) {
+            for (Instrucao ordem : linha) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
                         executarAcao(ordem);
                     }
-                }
-            }.runTaskLater(app, tempo);
+                }.runTaskLater(app, tempo);
+            }
             tempo += sheepList.getVelocidade();
         }
     }

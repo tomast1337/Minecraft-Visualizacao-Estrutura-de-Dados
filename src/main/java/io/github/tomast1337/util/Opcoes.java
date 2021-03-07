@@ -1,8 +1,9 @@
 package io.github.tomast1337.util;
 
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 
-public class Escalas {
+public class Opcoes {
     public static final float[] escalaMenorHarmonica = {0, 2, 3, 5, 7, 8, 11, 12, 14, 15, 17, 19, 20, 23, 24, 24};
     public static final float[] escalaMaior = {0, 2, 4, 5, 7, 9, 11, 12, 14, 18, 16, 17, 19, 23, 24, 24};
     public static final float[] escalaPhrygia = {0, 1, 3, 5, 7, 8, 10, 12, 13, 15, 17, 19, 20, 22, 24, 24};
@@ -27,6 +28,14 @@ public class Escalas {
             /*13*/Sound.BLOCK_NOTE_BLOCK_PLING,
             /*14*/Sound.BLOCK_NOTE_BLOCK_SNARE,
             /*15*/Sound.BLOCK_NOTE_BLOCK_XYLOPHONE
+    };
+    public static Particle[] particulas = new Particle[]{
+            /*0*/Particle.HEART,
+            /*1*/Particle.VILLAGER_ANGRY,
+            /*2*/Particle.VILLAGER_HAPPY,
+            /*3*/Particle.EXPLOSION_NORMAL,
+            /*4*/Particle.EXPLOSION_LARGE,
+            /*5*/Particle.EXPLOSION_HUGE
     };
 
     public static float notaParaTom(float nota) {

@@ -1,6 +1,6 @@
 package io.github.tomast1337.sorting;
 
-import io.github.tomast1337.util.Escalas;
+import io.github.tomast1337.util.Opcoes;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -30,7 +30,7 @@ public class SheepList {
 
     public SheepList(int size) {
         this.sheeplist = new Sheep[size];
-        escalaSom = Escalas.escalaMaior;
+        escalaSom = Opcoes.escalaMaior;
     }
 
     public boolean criar(Location location, World world) {
@@ -46,8 +46,6 @@ public class SheepList {
                 //TODO: Animar particula
             }
             statusVida = true;
-
-
         }
         return statusVida;
     }

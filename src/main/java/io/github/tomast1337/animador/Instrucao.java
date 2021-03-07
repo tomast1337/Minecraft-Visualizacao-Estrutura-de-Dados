@@ -12,4 +12,17 @@ public class Instrucao {
         this.param = param;
         this.alvos = alvos;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder resp = new StringBuilder("Acao:" + acao.name() + " Parametro(s):");
+        for (int value : param) {
+            resp.append(value).append(" ");
+        }
+        resp.append("Alvo(s):");
+        for (Entity alvo : alvos) {
+            resp.append(alvo.getName()).append(" ");
+        }
+        return resp.toString();
+    }
 }
