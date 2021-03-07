@@ -28,4 +28,8 @@ public class Escalas {
             /*14*/Sound.BLOCK_NOTE_BLOCK_SNARE,
             /*15*/Sound.BLOCK_NOTE_BLOCK_XYLOPHONE
     };
+
+    public static float notaParaTom(float nota) {
+        return (float) (0.5 * Math.pow(2, nota / 12));
+    }
 }
