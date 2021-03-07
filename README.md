@@ -14,6 +14,7 @@ Essa versão possui os algoritmos de ordenação:
 - Radix Sort Base 2
 
 Opções de som:
+- Ativar/Desativar
 - Volume
 - Escala Menor Harmonica
 - Escala Maior
