@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class App extends JavaPlugin {
-    public static final String[] sortCommandOptions = {"configurar", "menu", "algoritmos", "volume", "velocidade"};
+    public static final String[] sortCommandOptions = {"configurar_som", "configurar_particulas", "menu", "algoritmos", "volume", "velocidade"};
     private static SheepList sheeplist;
 
     @Override
