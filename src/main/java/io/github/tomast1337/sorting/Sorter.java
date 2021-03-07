@@ -4,7 +4,7 @@ import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import io.github.tomast1337.App;
 import io.github.tomast1337.animador.Animador;
-import io.github.tomast1337.util.Escalas;
+import io.github.tomast1337.util.Opcoes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -46,18 +46,20 @@ public class Sorter implements CommandExecutor {
                         break;
                     case "volume":
                         sheeplist.setVolume(volume);
-                        Bukkit.broadcastMessage("Volume alterado para " + ChatColor.GOLD + "" + ChatColor.GOLD + sheeplist.getVolume());
+                        Bukkit.broadcastMessage("Volume alterado para " + ChatColor.BOLD + "" + ChatColor.GOLD + sheeplist.getVolume());
                         break;
                     case "velocidade":
                         sheeplist.setVelocidade(velocidade);
                         Bukkit.broadcastMessage("Velocidade alterada para "
-                                + ChatColor.GOLD + "" + ChatColor.GOLD + sheeplist.getVelocidade() + ChatColor.RESET + " ticks ou "
-                                + ChatColor.GOLD + "" + ChatColor.GOLD + (float) sheeplist.getVelocidade() / 20 + ChatColor.RESET + " segundos entre cada interação");
+                                + ChatColor.GOLD + "" + ChatColor.BOLD + sheeplist.getVelocidade() + ChatColor.RESET + " ticks ou "
+                                + ChatColor.GOLD + "" + ChatColor.BOLD + (float) sheeplist.getVelocidade() / 20 + ChatColor.RESET + " segundos entre cada interação");
                         break;
                     default:
                         player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu] [configurar] ou [algoritmos]");
                         break;
                 }
+            } else {
+                player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu] [configurar] ou [algoritmos]");
             }
         }
         return true;
@@ -84,7 +86,6 @@ public class Sorter implements CommandExecutor {
                     } else {
                         Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas ja criadas");
                     }
-
                     player.closeInventory();
                     return true;
                 },
@@ -235,49 +236,49 @@ public class Sorter implements CommandExecutor {
         gui.addElement(new StaticGuiElement('1', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior");
-                    sheeplist.setEscalaSom(Escalas.escalaMaior);
+                    sheeplist.setEscalaSom(Opcoes.escalaMaior);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Maior"));
         gui.addElement(new StaticGuiElement('2', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Blues Menor");
-                    sheeplist.setEscalaSom(Escalas.escalaBluesMenor);
+                    sheeplist.setEscalaSom(Opcoes.escalaBluesMenor);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Blues Meno"));
         gui.addElement(new StaticGuiElement('3', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Menor Harmonica");
-                    sheeplist.setEscalaSom(Escalas.escalaMaior);
+                    sheeplist.setEscalaSom(Opcoes.escalaMaior);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Menor Harmonica"));
         gui.addElement(new StaticGuiElement('4', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Phrygia");
-                    sheeplist.setEscalaSom(Escalas.escalaPhrygia);
+                    sheeplist.setEscalaSom(Opcoes.escalaPhrygia);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Phrygia"));
         gui.addElement(new StaticGuiElement('5', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 1");
-                    sheeplist.setEscalaSom(Escalas.escalaCromatica1);
+                    sheeplist.setEscalaSom(Opcoes.escalaCromatica1);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Cromatica 1"));
         gui.addElement(new StaticGuiElement('6', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 2");
-                    sheeplist.setEscalaSom(Escalas.escalaCromatica2);
+                    sheeplist.setEscalaSom(Opcoes.escalaCromatica2);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Cromatica 2"));
         gui.addElement(new StaticGuiElement('7', new ItemStack(Material.NOTE_BLOCK), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical Maior Cromatica 3");
-                    sheeplist.setEscalaSom(Escalas.escalaCromatica3);
+                    sheeplist.setEscalaSom(Opcoes.escalaCromatica3);
                     player.closeInventory();
                     return true;
                 }, "Selecionar escala Cromatica 3"));
