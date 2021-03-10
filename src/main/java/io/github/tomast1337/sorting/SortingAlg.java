@@ -26,11 +26,10 @@ public enum SortingAlg {
         Sheep[] array = sl.sheeplist;
         for (int i = 0; i < array.length; i++) {
             for (int j = 1; j < (array.length - i); j++) {
-
                 if (Integer.parseInt(array[j - 1].getName()) > Integer.parseInt(array[j].getName())) {
-                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{10, 12}, new Entity[]{array[j]}));
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[j]}));
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[j - 1]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j - 1]}));
                     passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[j - 1], array[j]}));
 
                     Sheep aux = array[j - 1];
@@ -45,6 +44,33 @@ public enum SortingAlg {
         return passosAnimacao;
     }
 
+    public static ArrayList<Instrucao> selectionSort(SheepList sl) {
+        ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
+        Sheep[] array = sl.sheeplist;
+        for (int i = 0; i < array.length - 1; i++) {
+            int min_idx = i;
+            for (int j = i + 1; j < array.length; j++) {
+                if (Integer.parseInt(array[j].getName()) < Integer.parseInt(array[min_idx].getName())) {
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[j]}));
+                    min_idx = j;
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[min_idx]}));
+                } else {
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[j]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[min_idx]}));
+                }
+            }
+            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
+            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[min_idx]}));
+            passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[min_idx], array[i]}));
+            Sheep aux = array[min_idx];
+            array[min_idx] = array[i];
+            array[i] = aux;
+        }
+
+        return passosAnimacao;
+    }
+
     public static ArrayList<Instrucao> insertionSort(SheepList sl) {
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         Sheep[] array = sl.sheeplist;
@@ -56,39 +82,15 @@ public enum SortingAlg {
             while (j >= 0 && Integer.parseInt(array[j].getName()) > Integer.parseInt(key.getName())) {
                 array[j + 1] = array[j];
                 j = j - 1;
-
-                passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{2}, new Entity[]{array[j + 1], array[j]}));
-                passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[j + 1]}));
-                passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{2}, new Entity[]{array[j]}));
-                passosAnimacao.add(new Instrucao(Acao.Som, new int[]{1}, new Entity[]{array[j]}));
             }
             array[j + 1] = key;
         }
         return passosAnimacao;
     }
 
-    public static ArrayList<Instrucao> selectionSort(SheepList sl) {
-        ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
-        Sheep[] array = sl.sheeplist;
-        //TODO: adiciona instrucoes de animação
-        for (int i = 0; i < array.length - 1; i++) {
-            int min_idx = i;
-            for (int j = i + 1; j < array.length; j++)
-                if (Integer.parseInt(array[j].getName()) < Integer.parseInt(array[min_idx].getName())) {
-                    min_idx = j;
-                }
-            Sheep aux = array[min_idx];
-            array[min_idx] = array[i];
-            array[i] = aux;
-        }
-
-        return passosAnimacao;
-    }
-
     public static ArrayList<Instrucao> cocktailSort(SheepList sl) {
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         Sheep[] array = sl.sheeplist;
-        ;
         //TODO: adiciona instrucoes de animação
         boolean swapped = true;
         int start = 0;
@@ -123,7 +125,6 @@ public enum SortingAlg {
     public static ArrayList<Instrucao> notSoBogoSort(SheepList sl) {
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         Sheep[] array = sl.sheeplist;
-        ;
         //TODO: adiciona instrucoes de animação
         for (int i = 0; i < array.length; i++) {
             Sheep menor = array[i];
@@ -148,20 +149,17 @@ public enum SortingAlg {
     }
 
     public static ArrayList<Instrucao> mergeSort(SheepList sl) {
-        ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         Sheep[] array = sl.sheeplist;
-
-        return passosAnimacao;
+        return mergeSortAlg(array, 0, array.length - 1);
     }
 
     private static ArrayList<Instrucao> mergeSortAlg(Sheep[] sheeplist, int inicio, int fim) {
         //TODO: adiciona instrucoes de animação
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
-        ;
         if (inicio < fim) {
             int meio = (inicio + fim) / 2;
-            //passosAnimação.append(mergeSortAlg(sheeplist, inicio, meio));
-            //passosAnimação.append(mergeSortAlg(sheeplist, meio + 1, fim));
+            mergeSortAlg(sheeplist, inicio, meio);
+            mergeSortAlg(sheeplist, meio + 1, fim);
             merge(sheeplist, inicio, meio, fim);
         }
         return passosAnimacao;
