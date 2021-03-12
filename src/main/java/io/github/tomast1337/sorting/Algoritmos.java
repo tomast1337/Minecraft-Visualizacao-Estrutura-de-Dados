@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public enum SortingAlg {
+public enum Algoritmos {
     BUBBLE_SORT,
     INSERTION_SORT,
     SELECTION_SORT,
@@ -83,6 +83,7 @@ public enum SortingAlg {
                 array[j + 1] = array[j];
                 j = j - 1;
             }
+            passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[j + 1]}));
             array[j + 1] = key;
         }
         return passosAnimacao;
