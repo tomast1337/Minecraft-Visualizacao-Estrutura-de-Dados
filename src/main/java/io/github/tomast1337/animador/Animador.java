@@ -52,6 +52,25 @@ public class Animador {
         AnimarSheepList(app, sheeplist, animacao);
     }
 
+    public static void executarListaInstrucoes(App app, SheepList sheepList, ArrayList<Instrucao> instrucoes, String mensagemFinal) {
+        int tempo = 0;
+        for (Instrucao instrucao : instrucoes) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    executarAcao(instrucao);
+                }
+            }.runTaskLater(app, tempo);
+            tempo += sheepList.getVelocidade();
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.broadcastMessage(mensagemFinal);
+            }
+        }.runTaskLater(app, tempo);
+    }
+
     public static void AnimarSheepList(App app, SheepList sheepList, ArrayList<Instrucao> instrucoes) {
         int tempo = 0;
         for (Instrucao instrucao : instrucoes) {

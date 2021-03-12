@@ -87,10 +87,7 @@ public class ManuseioOvelhas implements CommandExecutor {
         gui.addElement(new StaticGuiElement('c', new ItemStack(Material.WHITE_WOOL), 1,
                 InventoryClickEvent -> {
 
-                    if (sheeplist.criar(location, player.getWorld())) {
-                        Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas criadas em " + player.getLocation().toVector().toString());
-                        Bukkit.broadcastMessage(ChatColor.GOLD + sheeplist.printArray());
-                    } else {
+                    if (!sheeplist.criar(location, player.getWorld(), app)) {
                         Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas ja criadas");
                     }
                     player.closeInventory();

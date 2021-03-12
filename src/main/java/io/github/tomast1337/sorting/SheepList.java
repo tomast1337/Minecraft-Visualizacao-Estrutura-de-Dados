@@ -1,15 +1,23 @@
 package io.github.tomast1337.sorting;
 
+import io.github.tomast1337.App;
+import io.github.tomast1337.animador.Acao;
+import io.github.tomast1337.animador.Instrucao;
 import io.github.tomast1337.util.Opcoes;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Sheep;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static io.github.tomast1337.animador.Animador.executarListaInstrucoes;
 
 public class SheepList {
 
@@ -25,16 +33,16 @@ public class SheepList {
     private int velocidade = 3;
     private int volume = 12;
     private float[] escalaSom;
-    private int indexInstrumento = 0;
-
+    private int indexInstrumento = 4;
 
     public SheepList(int size) {
         this.sheeplist = new Sheep[size];
         escalaSom = Opcoes.escalaMaior;
     }
 
-    public boolean criar(Location location, World world) {
+    public boolean criar(Location location, World world, App app) {
         if (!statusVida) {
+            ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
             int offset = 2, i = 0;
             for (Sheep sheep : sheeplist) {
                 sheeplist[i] = (Sheep) world.spawnEntity(location.add(offset, 0, 0), EntityType.SHEEP);
@@ -43,9 +51,10 @@ public class SheepList {
                 sheeplist[i].setAI(false);
                 sheeplist[i].setCustomNameVisible(true);
                 i++;
-                //TODO: Animar particula
+                passosAnimacao.add(new Instrucao(Acao.Som, new int[]{getIndexInstrumento(), getVolume()}, new Entity[]{sheeplist[i]}));
             }
             statusVida = true;
+            executarListaInstrucoes(app, this, passosAnimacao, ChatColor.RED + "Ovelhas criadas em " + location.toVector().toString() + ChatColor.RESET + "" + ChatColor.GOLD + printArray());
         }
         return statusVida;
     }
