@@ -19,7 +19,8 @@ public enum Algoritmos {
     HEAP_SORT,
     RADIX_SORT_BASE_2,
     COCKTAIL_SORT,
-    NOT_SO_BOGO_SORT;
+    NOT_SO_BOGO_SORT,
+    BINARY_SEARCH;
 
     public static ArrayList<Instrucao> bubbleSort(SheepList sl) {
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
@@ -81,9 +82,8 @@ public enum Algoritmos {
             int j = i - 1;
             while (j >= 0 && Integer.parseInt(array[j].getName()) > Integer.parseInt(key.getName())) {
                 array[j + 1] = array[j];
-                j = j - 1;
+                j--;
             }
-            passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[j + 1]}));
             array[j + 1] = key;
         }
         return passosAnimacao;
@@ -100,10 +100,17 @@ public enum Algoritmos {
             swapped = false;
             for (int i = start; i < end - 1; ++i) {
                 if (Integer.parseInt(array[i].getName()) > Integer.parseInt(array[i + 1].getName())) {
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i + 1]}));
+                    passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[i + 1]}));
                     Sheep aux = array[i];
                     array[i] = array[i + 1];
                     array[i + 1] = aux;
                     swapped = true;
+                } else {
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i + 1]}));
                 }
             }
             if (!swapped)
@@ -112,10 +119,17 @@ public enum Algoritmos {
             end = end - 1;
             for (int i = end - 1; i >= start; i--) {
                 if (Integer.parseInt(array[i].getName()) > Integer.parseInt(array[i + 1].getName())) {
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i + 1]}));
+                    passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[i + 1]}));
                     Sheep aux = array[i];
                     array[i] = array[i + 1];
                     array[i + 1] = aux;
                     swapped = true;
+                } else {
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i]}));
+                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i + 1]}));
                 }
             }
             start = start + 1;
@@ -204,7 +218,6 @@ public enum Algoritmos {
         Sheep[] array = sl.sheeplist;
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         //TODO: a ser implementado
-
         return passosAnimacao;
     }
 
@@ -212,7 +225,6 @@ public enum Algoritmos {
         Sheep[] array = sl.sheeplist;
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         //TODO: a ser implementado
-
         return passosAnimacao;
     }
 
@@ -220,7 +232,13 @@ public enum Algoritmos {
         Sheep[] array = sl.sheeplist;
         ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
         //TODO: a ser implementado
+        return passosAnimacao;
+    }
 
+    public static ArrayList<Instrucao> binarySearch(SheepList sl) {
+        Sheep[] array = sl.sheeplist;
+        ArrayList<Instrucao> passosAnimacao = new ArrayList<>();
+        //TODO: a ser implementado
         return passosAnimacao;
     }
 }
