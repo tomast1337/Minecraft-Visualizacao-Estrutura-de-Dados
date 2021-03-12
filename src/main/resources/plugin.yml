@@ -4,6 +4,6 @@ version: 0.2
 api-version: 1.16
 
 commands:
-  sorter:
-    description: Criar organiza e destroi ovelhas
+  ovelhas:
+    description: Realiza operações com uma array de ovelhas
     usage: /<command>
