@@ -16,11 +16,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 
-public class Sorter implements CommandExecutor {
+public class ManuseioOvelhas implements CommandExecutor {
     private final SheepList sheeplist;
     private final App app;
 
-    public Sorter(SheepList sheeplist, App app) {
+    public ManuseioOvelhas(SheepList sheeplist, App app) {
         this.app = app;
         this.sheeplist = sheeplist;
     }
@@ -44,8 +44,11 @@ public class Sorter implements CommandExecutor {
                     case "configurar_particulas":
                         configurarParticulas(player);
                         break;
-                    case "algoritmos":
+                    case "ordenar":
                         ordenar(player);
+                        break;
+                    case "buscar":
+                        buscar(player);
                         break;
                     case "volume":
                         sheeplist.setVolume(volume);
@@ -58,7 +61,7 @@ public class Sorter implements CommandExecutor {
                                 + ChatColor.GOLD + "" + ChatColor.BOLD + (float) sheeplist.getVelocidade() / 20 + ChatColor.RESET + " segundos entre cada interação");
                         break;
                     default:
-                        player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu] [configurar] ou [algoritmos]");
+                        player.sendMessage(ChatColor.RED + "Erro: ultilise /sorter [menu], [configurar_som], [configurar_particulas] ou [algoritmos]");
                         break;
                 }
             } else {
@@ -153,54 +156,58 @@ public class Sorter implements CommandExecutor {
         gui.setFiller(new ItemStack(Material.END_STONE, 1));
 
         gui.addElement(new StaticGuiElement('1', new ItemStack(Material.EMERALD_BLOCK), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.BUBBLE_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.BUBBLE_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Bubble Sort");
             return true;
         }, ChatColor.GOLD + "Bubble Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Bubble Sort"));
         gui.addElement(new StaticGuiElement('2', new ItemStack(Material.KNOWLEDGE_BOOK), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.INSERTION_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.INSERTION_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Insertion Sort");
             return true;
         }, ChatColor.GOLD + "Insertion Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Insertion Sort"));
         gui.addElement(new StaticGuiElement('3', new ItemStack(Material.TOTEM_OF_UNDYING), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.COCKTAIL_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.COCKTAIL_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Cocktail Sort");
             return true;
         }, ChatColor.GOLD + "Cocktail Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Cocktail Sort"));
 
         gui.addElement(new StaticGuiElement('4', new ItemStack(Material.PAPER), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.NOT_SO_BOGO_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.NOT_SO_BOGO_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Not So Bogo Sort");
             return true;
         }, ChatColor.GOLD + "Not So Bogo Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Not So Bogo Sort"));
         gui.addElement(new StaticGuiElement('5', new ItemStack(Material.MOSSY_COBBLESTONE_WALL), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.MERGE_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.MERGE_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Merge Sort");
             return true;
         }, ChatColor.GOLD + "Merge Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Merge Sort"));
         gui.addElement(new StaticGuiElement('6', new ItemStack(Material.SALMON), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.SELECTION_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.SELECTION_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Selection Sort");
             return true;
         }, ChatColor.GOLD + "Selection Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Selection Sort"));
 
         gui.addElement(new StaticGuiElement('7', new ItemStack(Material.RED_MUSHROOM_BLOCK), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.QUICK_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.QUICK_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Quick Sort");
             return true;
         }, ChatColor.GOLD + "Quick Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Quick Sort"));
         gui.addElement(new StaticGuiElement('8', new ItemStack(Material.ICE), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.HEAP_SORT, app, sheeplist);
+            Animador.executarSorting(Algoritmos.HEAP_SORT, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Heap Sort");
             return true;
         }, ChatColor.GOLD + "Heap Sort", ChatColor.GOLD + "Executar algoritmo de ordenação Heap Sort"));
         gui.addElement(new StaticGuiElement('9', new ItemStack(Material.END_PORTAL_FRAME), 1, InventoryClickEvent -> {
-            Animador.executarSorting(SortingAlg.RADIX_SORT_BASE_2, app, sheeplist);
+            Animador.executarSorting(Algoritmos.RADIX_SORT_BASE_2, app, sheeplist);
             Bukkit.broadcastMessage(ChatColor.BOLD + "Executando " + ChatColor.GOLD + " Radix Sort Base 2");
             return true;
         }, ChatColor.GOLD + "Radix Sort Base 2", ChatColor.GOLD + "Executar algoritmo de ordenação Radix Sort Base 2"));
 
         gui.show(player);
+    }
+
+    private void buscar(Player player) {
+
     }
 
     private void configurarParticulas(Player player) {
@@ -209,9 +216,9 @@ public class Sorter implements CommandExecutor {
         InventoryGui gui = new InventoryGui(app, "Sorter Configurações", guiSetup);
         gui.setFiller(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1));
         gui.addElement(new StaticGuiElement('h', new ItemStack(Material.CAMPFIRE), 1,
-                        InventoryClickEvent -> {
-                            if (sheeplist.particulasToggle())
-                                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Particulas Ativadas");
+                InventoryClickEvent -> {
+                    if (sheeplist.particulasToggle())
+                        Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Particulas Ativadas");
                             else
                                 Bukkit.broadcastMessage(ChatColor.DARK_RED + "Particulas  Desativadas");
                             player.closeInventory();
