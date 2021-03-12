@@ -28,7 +28,7 @@ public enum Algoritmos {
         for (int i = 0; i < array.length; i++) {
             for (int j = 1; j < (array.length - i); j++) {
                 if (Integer.parseInt(array[j - 1].getName()) > Integer.parseInt(array[j].getName())) {
-                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[j]}));
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), sl.getVolume()}, new Entity[]{array[j]}));
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j]}));
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j - 1]}));
                     passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[j - 1], array[j]}));
@@ -52,7 +52,7 @@ public enum Algoritmos {
             int min_idx = i;
             for (int j = i + 1; j < array.length; j++) {
                 if (Integer.parseInt(array[j].getName()) < Integer.parseInt(array[min_idx].getName())) {
-                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[j]}));
+                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), sl.getVolume()}, new Entity[]{array[j]}));
                     min_idx = j;
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[j]}));
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[min_idx]}));
@@ -61,8 +61,8 @@ public enum Algoritmos {
                     passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[min_idx]}));
                 }
             }
-            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
-            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[min_idx]}));
+            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), sl.getVolume()}, new Entity[]{array[i]}));
+            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), sl.getVolume()}, new Entity[]{array[min_idx]}));
             passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[min_idx], array[i]}));
             Sheep aux = array[min_idx];
             array[min_idx] = array[i];
@@ -99,42 +99,35 @@ public enum Algoritmos {
         while (swapped) {
             swapped = false;
             for (int i = start; i < end - 1; ++i) {
-                if (Integer.parseInt(array[i].getName()) > Integer.parseInt(array[i + 1].getName())) {
-                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i + 1]}));
-                    passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[i + 1]}));
-                    Sheep aux = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = aux;
-                    swapped = true;
-                } else {
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i + 1]}));
-                }
+                swapped = isSwapped(sl, passosAnimacao, array, swapped, i);
             }
             if (!swapped)
                 break;
             swapped = false;
             end = end - 1;
             for (int i = end - 1; i >= start; i--) {
-                if (Integer.parseInt(array[i].getName()) > Integer.parseInt(array[i + 1].getName())) {
-                    passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), 12}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i + 1]}));
-                    passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[i + 1]}));
-                    Sheep aux = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = aux;
-                    swapped = true;
-                } else {
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i]}));
-                    passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i + 1]}));
-                }
+                swapped = isSwapped(sl, passosAnimacao, array, swapped, i);
             }
             start = start + 1;
         }
         return passosAnimacao;
+    }
+
+    private static boolean isSwapped(SheepList sl, ArrayList<Instrucao> passosAnimacao, Sheep[] array, boolean swapped, int i) {
+        if (Integer.parseInt(array[i].getName()) > Integer.parseInt(array[i + 1].getName())) {
+            passosAnimacao.add(new Instrucao(Acao.Som, new int[]{sl.getIndexInstrumento(), sl.getVolume()}, new Entity[]{array[i]}));
+            passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i]}));
+            passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{0}, new Entity[]{array[i + 1]}));
+            passosAnimacao.add(new Instrucao(Acao.TrocaPulo, new int[]{}, new Entity[]{array[i], array[i + 1]}));
+            Sheep aux = array[i];
+            array[i] = array[i + 1];
+            array[i + 1] = aux;
+            swapped = true;
+        } else {
+            passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i]}));
+            passosAnimacao.add(new Instrucao(Acao.Particula, new int[]{1}, new Entity[]{array[i + 1]}));
+        }
+        return swapped;
     }
 
     public static ArrayList<Instrucao> notSoBogoSort(SheepList sl) {
