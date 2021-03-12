@@ -1,19 +1,21 @@
 package io.github.tomast1337.animador;
 
 import io.github.tomast1337.App;
+import io.github.tomast1337.sorting.Algoritmos;
 import io.github.tomast1337.sorting.SheepList;
-import io.github.tomast1337.sorting.SortingAlg;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
 import static io.github.tomast1337.animador.Acao.executarAcao;
-import static io.github.tomast1337.sorting.SortingAlg.*;
+import static io.github.tomast1337.sorting.Algoritmos.*;
 
 public class Animador {
-    public static void executarSorting(SortingAlg sortingAlg, App app, SheepList sheeplist) {
+    public static void executarSorting(Algoritmos algoritmos, App app, SheepList sheeplist) {
         ArrayList<Instrucao> animacao = new ArrayList<>();
-        switch (sortingAlg) {
+        switch (algoritmos) {
             case BUBBLE_SORT:
                 animacao = bubbleSort(sheeplist);
                 break;
@@ -41,6 +43,9 @@ public class Animador {
             case NOT_SO_BOGO_SORT:
                 animacao = notSoBogoSort(sheeplist);
                 break;
+            case BINARY_SEARCH:
+                animacao = binarySearch(sheeplist);
+                break;
             default:
                 break;
         }
@@ -56,8 +61,14 @@ public class Animador {
                     executarAcao(instrucao);
                 }
             }.runTaskLater(app, tempo);
-
             tempo += sheepList.getVelocidade();
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Ovelhas ordenadas");
+                Bukkit.broadcastMessage(ChatColor.GOLD + sheepList.printArray());
+            }
+        }.runTaskLater(app, tempo);
     }
 }
