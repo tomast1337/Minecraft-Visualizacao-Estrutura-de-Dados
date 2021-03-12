@@ -13,7 +13,8 @@ import static io.github.tomast1337.util.Opcoes.notaParaTom;
 public enum Acao {
     TrocaPulo,
     Particula,
-    Som;
+    Som,
+    MoverCima;
 
     private static void executarTrocaPulo(int[] param, Entity[] alvos) {
         Location pos1 = alvos[0].getLocation();
@@ -44,6 +45,13 @@ public enum Acao {
         }
     }
 
+    public static void executarMoverCima(int[] param, Entity[] alvos) {
+        for (Entity alvo : alvos) {
+            Location location = alvo.getLocation();
+            alvo.teleport(location.add(0, param[0], 0));
+        }
+    }
+
     public static void executarAcao(final Instrucao ordem) {
         switch (ordem.acao) {
             case TrocaPulo:
@@ -54,6 +62,9 @@ public enum Acao {
                 break;
             case Som:
                 executarSom(ordem.param, ordem.alvos);
+                break;
+            case MoverCima:
+                executarMoverCima(ordem.param, ordem.alvos);
                 break;
             default:
                 break;
