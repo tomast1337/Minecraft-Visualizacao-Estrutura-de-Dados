@@ -86,8 +86,10 @@ public class ManuseioOvelhas implements CommandExecutor {
 
         gui.addElement(new StaticGuiElement('c', new ItemStack(Material.WHITE_WOOL), 1,
                 InventoryClickEvent -> {
-
-                    if (!sheeplist.criar(location, player.getWorld(), app)) {
+                    if (sheeplist.criar(location, player.getWorld())) {
+                        Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas criadas em " + player.getLocation().toVector().toString());
+                        Bukkit.broadcastMessage(ChatColor.GOLD + sheeplist.printArray());
+                    } else {
                         Bukkit.broadcastMessage(ChatColor.RED + "Ovelhas ja criadas");
                     }
                     player.closeInventory();
@@ -279,7 +281,7 @@ public class ManuseioOvelhas implements CommandExecutor {
     }
 
     private StaticGuiElement instrumentoGuiElement(char slot, Material material, String nomeEscala, float[] escalaSom, Player player) {
-        return new StaticGuiElement('7', new ItemStack(material), 1,
+        return new StaticGuiElement(slot, new ItemStack(material), 1,
                 InventoryClickEvent -> {
                     Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Selecionado Escala musical " + nomeEscala);
                     sheeplist.setEscalaSom(escalaSom);
